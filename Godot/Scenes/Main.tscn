@@ -1,0 +1,72 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Systems/Player/PlayerController.gd" type="Script" id=1]
+
+[sub_resource type="BoxShape" id=1]
+
+[sub_resource type="CubeMesh" id=2]
+
+[sub_resource type="CapsuleShape" id=3]
+height = 1.75
+
+[sub_resource type="CapsuleMesh" id=4]
+mid_height = 1.75
+
+[sub_resource type="CubeMesh" id=5]
+
+[node name="Root" type="Spatial"]
+
+[node name="Floor" type="StaticBody" parent="."]
+transform = Transform( 100, 0, 0, 0, 1, 0, 0, 0, 100, 0, -1, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Floor"]
+shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Floor"]
+mesh = SubResource( 2 )
+skeleton = NodePath("../..")
+
+[node name="Cube" type="StaticBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Cube"]
+shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Cube"]
+mesh = SubResource( 2 )
+skeleton = NodePath("../..")
+
+[node name="Cube2" type="StaticBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 8 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Cube2"]
+shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Cube2"]
+mesh = SubResource( 2 )
+skeleton = NodePath("../..")
+
+[node name="KinematicBody" type="KinematicBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8.01147, 0.0235357, -0.00622559 )
+script = ExtResource( 1 )
+
+[node name="collider" type="CollisionShape" parent="KinematicBody"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1.885, 0 )
+shape = SubResource( 3 )
+
+[node name="Mesh" type="Spatial" parent="KinematicBody"]
+
+[node name="mainBody2" type="MeshInstance" parent="KinematicBody/Mesh"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1.885, 0 )
+mesh = SubResource( 4 )
+skeleton = NodePath("../..")
+
+[node name="cubeForward" type="MeshInstance" parent="KinematicBody/Mesh"]
+transform = Transform( 0.502133, 0, 0, 0, -2.19489e-08, 0.502133, 0, -0.502133, -2.19489e-08, -0.0262008, 2.60002, 0.583606 )
+mesh = SubResource( 5 )
+skeleton = NodePath("../..")
+
+[node name="CamOffset" type="Spatial" parent="KinematicBody"]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 2.61803, 1.16014 )
+
+[node name="Camera" type="Camera" parent="KinematicBody/CamOffset"]
