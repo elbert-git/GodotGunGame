@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://b8cswkfldssbh"]
+
+[ext_resource type="Texture2D" uid="uid://b1gvdwyj668sq" path="res://imports/mapImport/ground.png" id="1_x4151"]
+
+[resource]
+shading_mode = 0
+diffuse_mode = 3
+albedo_color = Color(0.94902, 0.666667, 0.705882, 1)
+albedo_texture = ExtResource("1_x4151")
+texture_filter = 0

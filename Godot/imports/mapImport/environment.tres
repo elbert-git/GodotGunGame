@@ -1,0 +1,26 @@
+[gd_resource type="Environment" format=3 uid="uid://rpk8x1fify2a"]
+
+[resource]
+background_mode = 1
+background_color = Color(0.572549, 0.282353, 0.282353, 1)
+ssao_radius = 4.56
+ssao_intensity = 10.9
+ssao_power = 1.26134
+ssao_detail = 2.05
+ssao_horizon = 0.0
+ssao_light_affect = 1.0
+ssao_ao_channel_affect = 1.0
+glow_enabled = true
+glow_intensity = 0.1
+glow_strength = 1.45
+glow_blend_mode = 0
+glow_hdr_threshold = 1.47
+glow_hdr_scale = 1.5
+glow_hdr_luminance_cap = 14.7
+glow_map_strength = 1.0
+fog_light_color = Color(0.572549, 0.282353, 0.282353, 1)
+fog_density = 0.0887
+fog_height = -125.85
+fog_height_density = 0.001
+adjustment_enabled = true
+adjustment_contrast = 1.25

@@ -1,0 +1,46 @@
+[gd_scene load_steps=7 format=3 uid="uid://c3efymn0wqovn"]
+
+[ext_resource type="Script" path="res://Systems/Player/player.gd" id="1_rknhw"]
+[ext_resource type="Environment" uid="uid://rpk8x1fify2a" path="res://imports/mapImport/environment.tres" id="2_g7i6p"]
+[ext_resource type="Script" path="res://Systems/Shooting/Gun.gd" id="3_wogwq"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_4dste"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_phmsb"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_vqdam"]
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("CAMERA_CONTROLLER")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.734, 0)
+script = ExtResource("1_rknhw")
+CAMERA_CONTROLLER = NodePath("camRoot/Camera3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_4dste")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.00077498)
+mesh = SubResource("CapsuleMesh_phmsb")
+
+[node name="camRoot" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="camRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.682539, -0.50096)
+environment = ExtResource("2_g7i6p")
+
+[node name="Gun" type="Node3D" parent="camRoot/Camera3D"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.757316, 0.284599, -0.313906, -0.785055)
+script = ExtResource("3_wogwq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="camRoot/Camera3D/Gun"]
+mesh = SubResource("BoxMesh_vqdam")
+
+[node name="bulletSpawn" type="Node3D" parent="camRoot/Camera3D/Gun"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.550294)
+
+[node name="AimRay" type="RayCast3D" parent="camRoot/Camera3D"]
+transform = Transform3D(-0.1, 0, -6.62067e-08, 0, 0.1, 0, 8.74228e-09, 0, -0.757316, 0, 0, -0.155142)
+target_position = Vector3(0, 0, 4000)
+
+[node name="defaultAim" type="Node3D" parent="camRoot/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -184)

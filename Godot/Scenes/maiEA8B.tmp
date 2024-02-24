@@ -47,4 +47,3 @@ transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
 environment = ExtResource("3_bynod")
 
 [node name="Bullet" parent="." instance=ExtResource("4_oe41l")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.859924, 3.83547, 1.30569)
