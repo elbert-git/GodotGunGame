@@ -1,5 +1,7 @@
 extends Node3D
 
+signal enemy_hit()
+
 # get node refs
 @onready var Area:Area3D = get_node("Area3D")
 
@@ -17,4 +19,4 @@ func _process(delta):
 	# on collision die
 	if(len(Area.get_overlapping_bodies()) > 0):
 		queue_free()
-	
+

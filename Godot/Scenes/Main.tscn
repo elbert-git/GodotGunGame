@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://c3efymn0wqovn" path="res://Systems/Player/Player.tscn" id="1_txwmi"]
 [ext_resource type="PackedScene" uid="uid://b341hqmcb1yh4" path="res://imports/mapImport/map.tscn" id="2_1jdhj"]
 [ext_resource type="Environment" uid="uid://rpk8x1fify2a" path="res://imports/mapImport/environment.tres" id="3_bynod"]
-[ext_resource type="PackedScene" uid="uid://djvhbgfd2oh4d" path="res://Systems/Shooting/bullet.tscn" id="4_oe41l"]
+[ext_resource type="PackedScene" uid="uid://brt86nl8l072o" path="res://Systems/Enemy/enemy.tscn" id="4_xmjqw"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_vrcge"]
 size = Vector3(100, 1, 100)
@@ -46,5 +46,5 @@ transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource("3_bynod")
 
-[node name="Bullet" parent="." instance=ExtResource("4_oe41l")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.859924, 3.83547, 1.30569)
+[node name="enemy" parent="." instance=ExtResource("4_xmjqw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.61097, 0)

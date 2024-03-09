@@ -16,7 +16,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.734, 0)
 script = ExtResource("1_rknhw")
 CAMERA_CONTROLLER = NodePath("camRoot/Camera3D")
 
-[node name="hitbox_movement" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_4dste")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
@@ -49,6 +49,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -184)
 [node name="ui_root" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
+script = ExtResource("4_sk4cf")
 
 [node name="Healthbar" type="Control" parent="ui_root"]
 anchors_preset = 0
@@ -56,7 +57,6 @@ offset_left = 16.0
 offset_top = 16.0
 offset_right = 56.0
 offset_bottom = 56.0
-script = ExtResource("4_sk4cf")
 
 [node name="outline" type="ColorRect" parent="ui_root/Healthbar"]
 layout_mode = 0
@@ -79,16 +79,3 @@ offset_top = 4.0
 offset_right = 404.0
 offset_bottom = 35.0
 color = Color(0, 1, 0, 1)
-
-[node name="area_for_enemy" type="Area3D" parent="."]
-collision_layer = 0
-collision_mask = 1073741824
-
-[node name="hitbox_enemy" type="CollisionShape3D" parent="area_for_enemy"]
-shape = SubResource("CapsuleShape3D_4dste")
-
-[node name="invulnerable_timer" type="Timer" parent="."]
-wait_time = 3.0
-
-[connection signal="player_damaged" from="." to="ui_root/Healthbar" method="_on_player_player_damaged"]
-[connection signal="timeout" from="invulnerable_timer" to="." method="_on_invulnerable_timer_timeout"]

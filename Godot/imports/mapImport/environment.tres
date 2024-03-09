@@ -22,5 +22,4 @@ fog_light_color = Color(0.572549, 0.282353, 0.282353, 1)
 fog_density = 0.0887
 fog_height = -125.85
 fog_height_density = 0.001
-adjustment_enabled = true
 adjustment_contrast = 1.25

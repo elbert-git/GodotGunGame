@@ -3,20 +3,19 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bka1w4yyjf48r"
-path.s3tc="res://.godot/imported/gunGameTexture_04.png-efe6b736f0185beb5fc3cdccee97fa7f.s3tc.ctex"
+path="res://.godot/imported/gunGameTexture_04.png-efe6b736f0185beb5fc3cdccee97fa7f.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://imports/mapImport/gunGameTexture_04.png"
-dest_files=["res://.godot/imported/gunGameTexture_04.png-efe6b736f0185beb5fc3cdccee97fa7f.s3tc.ctex"]
+dest_files=["res://.godot/imported/gunGameTexture_04.png-efe6b736f0185beb5fc3cdccee97fa7f.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1

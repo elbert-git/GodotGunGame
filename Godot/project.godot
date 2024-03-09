@@ -57,6 +57,11 @@ shoot={
 ]
 }
 
+[layer_names]
+
+3d_physics/layer_31="enemy"
+3d_physics/layer_32="bullet"
+
 [rendering]
 
 renderer/rendering_method="mobile"

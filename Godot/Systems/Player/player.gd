@@ -1,15 +1,23 @@
 extends CharacterBody3D
 
+# signals
+signal player_damaged(new_health)
+
+# get nodes
+@onready var obj_enemy_area := $area_for_enemy
+@onready var obj_invulnerable_timer := $invulnerable_timer
+# Get the gravity from the project settings to be synced with RigidBody nodes.
+var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
+
+# player properties
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
-
-# exported properties
 @export var MOUSE_SENSITIVITY:float = 0.5
 @export var TILT_LOWER_LIMIT := deg_to_rad(-50)
 @export var TILT_UPPER_LIMIT := deg_to_rad(60)
 @export var CAMERA_CONTROLLER := Camera3D
 
-# Variables
+# input Variables
 var _mouse_input:bool = false
 var _mouse_rotation:Vector3
 var _rotation_input:float
@@ -17,9 +25,41 @@ var _tilt_input:float
 var _player_rotation:Vector3
 var _camera_rotation:Vector3
 
-# Get the gravity from the project settings to be synced with RigidBody nodes.
-var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
+# player states
+var health = 100
+var is_invulnerable = false
 
+
+
+
+
+
+
+
+
+
+# --------- main functions --------------
+
+func _ready():
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+
+func _physics_process(delta):
+	# Add the gravity.
+	if not is_on_floor():
+		velocity.y -= gravity * delta
+	
+	_update_camera(delta)
+	player_movement()
+	if(!is_invulnerable):
+		enemy_collision()
+
+
+
+
+
+
+
+# --------- other functions --------------
 # escape event
 func _input(event):
 	if event.is_action_pressed("exit"):
@@ -30,7 +70,6 @@ func _unhandled_input(event):
 	if _mouse_input:
 		_rotation_input = -event.relative.x
 		_tilt_input = -event.relative.y
-
 
 func _update_camera(delta):
 	_mouse_rotation.x += _tilt_input*delta*MOUSE_SENSITIVITY
@@ -48,19 +87,8 @@ func _update_camera(delta):
 	_rotation_input = 0.0
 	_tilt_input = 0.0
 
-
-
-func _ready():
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-
-func _physics_process(delta):
-	# Add the gravity.
-	if not is_on_floor():
-		velocity.y -= gravity * delta
-	
-	_update_camera(delta)
-
-	# Handle jump.
+func player_movement():
+		# Handle jump.	
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
 
@@ -76,3 +104,20 @@ func _physics_process(delta):
 		velocity.z = move_toward(velocity.z, 0, SPEED)
 
 	move_and_slide()
+
+func enemy_collision():
+	if(len(obj_enemy_area.get_overlapping_areas()) > 0):
+		# change own health variable
+		health -= 20 # damage by 20
+		# emit health damage signal
+		emit_signal("player_damaged", health)
+		# be invulnerable for awhile
+		is_invulnerable = true
+		obj_invulnerable_timer.start(3)
+
+
+# --------- signal callbacks --------------
+
+
+func _on_invulnerable_timer_timeout():
+	is_invulnerable = false
