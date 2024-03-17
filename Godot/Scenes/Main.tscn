@@ -1,41 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://c3b1rmvcgssey"]
+[gd_scene load_steps=6 format=3 uid="uid://c3b1rmvcgssey"]
 
 [ext_resource type="PackedScene" uid="uid://c3efymn0wqovn" path="res://Systems/Player/Player.tscn" id="1_txwmi"]
 [ext_resource type="PackedScene" uid="uid://b341hqmcb1yh4" path="res://imports/mapImport/map.tscn" id="2_1jdhj"]
 [ext_resource type="Environment" uid="uid://rpk8x1fify2a" path="res://imports/mapImport/environment.tres" id="3_bynod"]
-[ext_resource type="PackedScene" uid="uid://brt86nl8l072o" path="res://Systems/Enemy/enemy.tscn" id="4_xmjqw"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_vrcge"]
-size = Vector3(100, 1, 100)
-
-[sub_resource type="BoxMesh" id="BoxMesh_3fcbp"]
-size = Vector3(100, 1, 100)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_c85nd"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_72m4x"]
+[ext_resource type="PackedScene" uid="uid://cowk75fi5ywm4" path="res://Systems/Shooting/BulletPool.tscn" id="5_npfkm"]
+[ext_resource type="PackedScene" uid="uid://cw6ib60ji8ns7" path="res://Systems/Enemy/EnemyPool.tscn" id="5_w84xm"]
 
 [node name="Root" type="Node3D"]
-
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -114.325, 0)
-visible = false
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-shape = SubResource("BoxShape3D_vrcge")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
-mesh = SubResource("BoxMesh_3fcbp")
-
-[node name="cube" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -113.29, 0)
-visible = false
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="cube"]
-shape = SubResource("BoxShape3D_c85nd")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="cube"]
-mesh = SubResource("BoxMesh_72m4x")
 
 [node name="Player" parent="." instance=ExtResource("1_txwmi")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.60935, 5.47267)
@@ -46,5 +17,10 @@ transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource("3_bynod")
 
-[node name="enemy" parent="." instance=ExtResource("4_xmjqw")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.61097, 0)
+[node name="Pools" type="Node3D" parent="."]
+
+[node name="BulletPool" parent="Pools" instance=ExtResource("5_npfkm")]
+
+[node name="EnemyPool" parent="Pools" instance=ExtResource("5_w84xm")]
+
+[connection signal="player_shoots" from="Player" to="Pools/BulletPool" method="_on_player_player_shoots"]

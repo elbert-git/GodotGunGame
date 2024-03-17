@@ -1,8 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://c3efymn0wqovn"]
+[gd_scene load_steps=7 format=3 uid="uid://c3efymn0wqovn"]
 
 [ext_resource type="Script" path="res://Systems/Player/player.gd" id="1_rknhw"]
 [ext_resource type="Environment" uid="uid://rpk8x1fify2a" path="res://imports/mapImport/environment.tres" id="2_g7i6p"]
-[ext_resource type="Script" path="res://Systems/Shooting/Gun.gd" id="3_wogwq"]
 [ext_resource type="Script" path="res://Systems/Player/health_bar.gd" id="4_sk4cf"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_4dste"]
@@ -31,7 +30,6 @@ environment = ExtResource("2_g7i6p")
 
 [node name="Gun" type="Node3D" parent="camRoot/Camera3D"]
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.757316, 0.284599, -0.313906, -0.785055)
-script = ExtResource("3_wogwq")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="camRoot/Camera3D/Gun"]
 mesh = SubResource("BoxMesh_vqdam")

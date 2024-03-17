@@ -2,10 +2,13 @@ extends CharacterBody3D
 
 # signals
 signal player_damaged(new_health)
+signal player_shoots()
 
 # get nodes
 @onready var obj_enemy_area := $area_for_enemy
 @onready var obj_invulnerable_timer := $invulnerable_timer
+@onready var obj_bullet_pool:= get_node("/root/Root/Pools/BulletPool")
+@onready var obj_bullet_spawn := $camRoot/Camera3D/Gun/bulletSpawn
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -16,6 +19,7 @@ const JUMP_VELOCITY = 4.5
 @export var TILT_LOWER_LIMIT := deg_to_rad(-50)
 @export var TILT_UPPER_LIMIT := deg_to_rad(60)
 @export var CAMERA_CONTROLLER := Camera3D
+const FIRE_RATE_PER_SECOND:float = 15
 
 # input Variables
 var _mouse_input:bool = false
@@ -28,7 +32,7 @@ var _camera_rotation:Vector3
 # player states
 var health = 100
 var is_invulnerable = false
-
+var time_since_last_shot = 0.0
 
 
 
@@ -48,8 +52,10 @@ func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 	
+	# processes
 	_update_camera(delta)
 	player_movement()
+	handle_shooting(delta)
 	if(!is_invulnerable):
 		enemy_collision()
 
@@ -60,6 +66,15 @@ func _physics_process(delta):
 
 
 # --------- other functions --------------
+
+func handle_shooting(delta):
+	# iterate time
+	time_since_last_shot += delta
+	if Input.is_action_pressed("shoot") and time_since_last_shot > 1.0/FIRE_RATE_PER_SECOND:
+		var bullet_vel = obj_bullet_spawn.global_basis.z
+		obj_bullet_pool.shoot(obj_bullet_spawn.global_position, bullet_vel)
+		time_since_last_shot = 0.0
+
 # escape event
 func _input(event):
 	if event.is_action_pressed("exit"):
@@ -104,6 +119,9 @@ func player_movement():
 		velocity.z = move_toward(velocity.z, 0, SPEED)
 
 	move_and_slide()
+
+
+
 
 func enemy_collision():
 	if(len(obj_enemy_area.get_overlapping_areas()) > 0):

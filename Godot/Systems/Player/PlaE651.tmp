@@ -1,0 +1,87 @@
+[gd_scene load_steps=6 format=3 uid="uid://c3efymn0wqovn"]
+
+[ext_resource type="Script" path="res://Systems/Player/player.gd" id="1_rknhw"]
+[ext_resource type="Environment" uid="uid://rpk8x1fify2a" path="res://imports/mapImport/environment.tres" id="2_g7i6p"]
+[ext_resource type="Script" path="res://Systems/Player/health_bar.gd" id="4_sk4cf"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_4dste"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_phmsb"]
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("CAMERA_CONTROLLER")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.734, 0)
+script = ExtResource("1_rknhw")
+CAMERA_CONTROLLER = NodePath("camRoot/Camera3D")
+
+[node name="hitbox_movement" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_4dste")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.00077498)
+mesh = SubResource("CapsuleMesh_phmsb")
+
+[node name="camRoot" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="camRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.682539, -0.50096)
+environment = ExtResource("2_g7i6p")
+
+[node name="Gun" type="Node3D" parent="camRoot/Camera3D"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.757316, 0.284599, -0.313906, -0.785055)
+
+[node name="bulletSpawn" type="Node3D" parent="camRoot/Camera3D/Gun"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.550294)
+
+[node name="AimRay" type="RayCast3D" parent="camRoot/Camera3D"]
+transform = Transform3D(-0.1, 0, -6.62067e-08, 0, 0.1, 0, 8.74228e-09, 0, -0.757316, 0, 0, -0.155142)
+target_position = Vector3(0, 0, 4000)
+
+[node name="defaultAim" type="Node3D" parent="camRoot/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -184)
+
+[node name="ui_root" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="Healthbar" type="Control" parent="ui_root"]
+anchors_preset = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 56.0
+offset_bottom = 56.0
+script = ExtResource("4_sk4cf")
+
+[node name="outline" type="ColorRect" parent="ui_root/Healthbar"]
+layout_mode = 0
+offset_right = 440.0
+offset_bottom = 40.0
+color = Color(0.494118, 0.494118, 0.494118, 1)
+
+[node name="bg" type="ColorRect" parent="ui_root/Healthbar"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 434.0
+offset_bottom = 35.0
+color = Color(0.74902, 0.74902, 0.74902, 1)
+
+[node name="fill" type="ColorRect" parent="ui_root/Healthbar"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 404.0
+offset_bottom = 35.0
+color = Color(0, 1, 0, 1)
+
+[node name="area_for_enemy" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 1073741824
+
+[node name="hitbox_enemy" type="CollisionShape3D" parent="area_for_enemy"]
+shape = SubResource("CapsuleShape3D_4dste")
+
+[node name="invulnerable_timer" type="Timer" parent="."]
+wait_time = 3.0
+
+[connection signal="player_damaged" from="." to="ui_root/Healthbar" method="_on_player_player_damaged"]
+[connection signal="timeout" from="invulnerable_timer" to="." method="_on_invulnerable_timer_timeout"]
