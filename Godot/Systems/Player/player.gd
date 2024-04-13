@@ -8,6 +8,10 @@ signal player_shoots()
 @onready var obj_enemy_area := $area_for_enemy
 @onready var obj_invulnerable_timer := $invulnerable_timer
 @onready var obj_bullet_pool:= get_node("/root/Root/Pools/BulletPool")
+@onready var obj_aimRayDebugReticle:= $debug_aimRayReticle
+@onready var obj_aimRay := $camRoot/Camera3D/AimRay
+@onready var obj_defaultAimPosition := $camRoot/Camera3D/defaultAim
+@onready var obj_gunRoot := $camRoot/Camera3D/Gun
 @onready var obj_bullet_spawn := $camRoot/Camera3D/Gun/bulletSpawn
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -20,6 +24,7 @@ const JUMP_VELOCITY = 4.5
 @export var TILT_UPPER_LIMIT := deg_to_rad(60)
 @export var CAMERA_CONTROLLER := Camera3D
 const FIRE_RATE_PER_SECOND:float = 15
+var rng = RandomNumberGenerator.new()
 
 # input Variables
 var _mouse_input:bool = false
@@ -33,7 +38,7 @@ var _camera_rotation:Vector3
 var health = 100
 var is_invulnerable = false
 var time_since_last_shot = 0.0
-
+var initial_bullet_spawn_pos = Vector3.ZERO;
 
 
 
@@ -46,18 +51,17 @@ var time_since_last_shot = 0.0
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	initial_bullet_spawn_pos = obj_bullet_spawn.position
 
 func _physics_process(delta):
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y -= gravity * delta
-	
 	# processes
 	_update_camera(delta)
 	player_movement()
+	point_gun_at_center()
 	handle_shooting(delta)
-	if(!is_invulnerable):
-		enemy_collision()
 
 
 
@@ -66,6 +70,16 @@ func _physics_process(delta):
 
 
 # --------- other functions --------------
+func point_gun_at_center():
+	# default aim
+	var aim_pos:Vector3 = obj_defaultAimPosition.global_position;
+	# if ray collides set new aim
+	if obj_aimRay.is_colliding():
+		aim_pos = obj_aimRay.get_collision_point()
+	# aim the gun
+	obj_gunRoot.look_at(aim_pos)
+	# debug posiition of gun
+	obj_aimRayDebugReticle.global_position = aim_pos
 
 func handle_shooting(delta):
 	# iterate time
@@ -74,6 +88,13 @@ func handle_shooting(delta):
 		var bullet_vel = obj_bullet_spawn.global_basis.z
 		obj_bullet_pool.shoot(obj_bullet_spawn.global_position, bullet_vel)
 		time_since_last_shot = 0.0
+	# randomise bullet spawn position;
+	var offset_pos = Vector3(
+		rng.randf_range(-1.0, 1.0),
+		rng.randf_range(-1.0, 1.0),
+		0
+	)
+	obj_bullet_spawn.position = initial_bullet_spawn_pos + offset_pos
 
 # escape event
 func _input(event):
@@ -121,17 +142,17 @@ func player_movement():
 	move_and_slide()
 
 
+func damage_player():
+		if(!is_invulnerable):
+			# change own health variable
+			health -= 20 # damage by 20
+			# emit health damage signal
+			emit_signal("player_damaged", health)
+			# be invulnerable for awhile
+			is_invulnerable = true
+			obj_invulnerable_timer.start(3)
 
 
-func enemy_collision():
-	if(len(obj_enemy_area.get_overlapping_areas()) > 0):
-		# change own health variable
-		health -= 20 # damage by 20
-		# emit health damage signal
-		emit_signal("player_damaged", health)
-		# be invulnerable for awhile
-		is_invulnerable = true
-		obj_invulnerable_timer.start(3)
 
 
 # --------- signal callbacks --------------

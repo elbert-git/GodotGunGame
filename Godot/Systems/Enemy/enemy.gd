@@ -7,33 +7,46 @@ signal enemy_hit(health)
 const SPEED = 2
 const ACCEL = 10
 const INITIAL_HEALTH = 100
+const bullet_damage = 20
+const distance_to_damage := 1.5
 
 # get nodes
 @onready var hurtbox:Area3D = $y_offset/hurtbox
 @onready var nav:NavigationAgent3D = $NavigationAgent3D
 @onready var obj_y_offset := $y_offset
+@onready var obj_animTree := get_node("y_offset/enemy/AnimationTree")
 var obj_player:CharacterBody3D = null
+var obj_score_label:Label = null
+var rng = RandomNumberGenerator.new()
 
 #enemy states
-@export var active = false
+@export var active:bool = false
+@export var alive:bool = false
 var health = 100
 var initial_y_height := 0
-var y_variance = 2
+var y_variance = 1
 var y_anim_speed = 2
 var y_offset := 0
 var y_anim_time := 0
+var y_height_reduction = -2.00
 
 
 ### --- main functions
 func _ready():
+	# get nodes
 	obj_player = get_node("/root/Root/Player") as CharacterBody3D
+	obj_score_label = get_node("/root/Root/Player/ui_root/score_label")
 	initial_y_height = obj_y_offset.global_position.y
+	obj_animTree.set("parameters/state/transition_request", "alive");
 
 func _process(delta):
-	if active:
+	if alive:
+		look_at(obj_player.global_position)
 		bullet_collisions()
 		float_y_offset(delta)
 		navigate_to_player(delta)
+		handle_player_damage()
+		
 
 
 
@@ -41,11 +54,28 @@ func _process(delta):
 
 
 ### --- other functions
+func handle_player_damage():
+	# get dist
+	var relative_player_pos:Vector3 = obj_player.global_position - global_position
+	var dist := relative_player_pos.length()
+	# if distance is closer than threhsold
+	if dist < distance_to_damage:
+		# call damage player
+		obj_player.damage_player()
+		die()
+	
+
 func bullet_collisions():
 	if(len(hurtbox.get_overlapping_areas()) > 0):
-		health -= 20
+		health -= bullet_damage
+		# play hit animation
+		obj_animTree.set("parameters/T_hitType/transition_request", "hit_" + str(rng.randi_range(1, 3))); # set random hit type
+		obj_animTree.set("parameters/os_hit/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE);
 		if(health <= 0):
-			deactivate()
+			# die
+			die()
+			# add to score
+			obj_score_label.add_score(20)
 		emit_signal("enemy_hit", health)
 
 func navigate_to_player(delta):
@@ -64,10 +94,9 @@ func float_y_offset(delta):
 	# - when close to player
 	var distance_to_player = global_position.distance_to(obj_player.global_position)
 	var distance_threshold = 10.00
-	var height_reduction = -4.00
 	distance_to_player = clamp(distance_to_player, 0.00, distance_threshold)
 	var lerp_factor = remap(distance_to_player, 0.00, distance_threshold, 0.00, 1.00)
-	current_offset = lerp(height_reduction, current_offset, lerp_factor)
+	current_offset = lerp(y_height_reduction, current_offset, lerp_factor)
 	# set position
 	obj_y_offset.global_position = Vector3(
 		obj_y_offset.global_position.x,
@@ -77,9 +106,24 @@ func float_y_offset(delta):
 
 func activate(pos:Vector3):
 	active = true
+	alive = true;
 	global_position = pos
 	health = INITIAL_HEALTH
+	# reset helath bar
+	emit_signal("enemy_hit", health)
+	# reset animation tree
+	obj_animTree.set("parameters/state/transition_request", "alive");
+
+func die():
+	# change state
+	alive = false
+	# play death animation
+	obj_animTree.set("parameters/state/transition_request", "dead");
+	# play death events
+	$AnimationPlayer.play("death_anim_events")
+
 
 func deactivate():
+	# deactivate logic
 	active = false
 	global_position = Vector3(0,-200, 0)

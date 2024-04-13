@@ -6,8 +6,8 @@ var bullet_scene = preload("res://Systems/Enemy/enemy.tscn")
 var rng = RandomNumberGenerator.new()
 
 # constants - props
-const TOTAL_INSTANCES:int = 30
-const SPAWN_INTERVAL:float = 1.0
+const TOTAL_INSTANCES:int = 3
+const SPAWN_INTERVAL:float = 3.0
 
 # vars - states
 var all_instances:Array[CharacterBody3D] = []
@@ -30,7 +30,6 @@ func _ready():
 
 #------------- other funcs
 func spawn_enemy():
-	print("spawning")
 	# get available enemy
 	var curr_enemy = null
 	for i in TOTAL_INSTANCES:
