@@ -6,7 +6,7 @@ var bullet_scene = preload("res://Systems/Enemy/enemy.tscn")
 var rng = RandomNumberGenerator.new()
 
 # constants - props
-const TOTAL_INSTANCES:int = 3
+const TOTAL_INSTANCES:int = 10
 const SPAWN_INTERVAL:float = 3.0
 
 # vars - states

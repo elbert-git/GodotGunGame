@@ -39,7 +39,7 @@ var health = 100
 var is_invulnerable = false
 var time_since_last_shot = 0.0
 var initial_bullet_spawn_pos = Vector3.ZERO;
-
+var prev_skull = null
 
 
 
@@ -73,9 +73,20 @@ func _physics_process(delta):
 func point_gun_at_center():
 	# default aim
 	var aim_pos:Vector3 = obj_defaultAimPosition.global_position;
+	# unhover skull
+	if(prev_skull != null):
+		prev_skull.set_hover(false)
 	# if ray collides set new aim
 	if obj_aimRay.is_colliding():
 		aim_pos = obj_aimRay.get_collision_point()
+		# hover current skull if it's there 
+		var hit_object = obj_aimRay.get_collider()
+		if(hit_object.get_name() == "hurtbox"):
+			# get skull and add hover
+			var skull = hit_object.get_parent().get_parent()
+			skull.set_hover(true)
+			prev_skull = skull
+		
 	# aim the gun
 	obj_gunRoot.look_at(aim_pos)
 	# debug posiition of gun

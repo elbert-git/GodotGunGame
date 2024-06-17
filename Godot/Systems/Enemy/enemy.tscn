@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://brt86nl8l072o"]
+[gd_scene load_steps=13 format=3 uid="uid://brt86nl8l072o"]
 
 [ext_resource type="Script" path="res://Systems/Enemy/enemy.gd" id="1_q5b7n"]
 [ext_resource type="Script" path="res://Systems/Enemy/enemy_health_bar.gd" id="2_tra56"]
@@ -8,6 +8,13 @@
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_scfgd"]
 radius = 0.4
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rbi0d"]
+shading_mode = 0
+albedo_color = Color(0, 0.721569, 0.737255, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_wvb1j"]
+material = SubResource("StandardMaterial3D_rbi0d")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hfesy"]
 shading_mode = 0
@@ -62,6 +69,10 @@ collision_mask = 2147483648
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="y_offset/hurtbox"]
 shape = SubResource("SphereShape3D_scfgd")
+
+[node name="hover_test" type="MeshInstance3D" parent="y_offset/hurtbox"]
+transform = Transform3D(0.139061, 0, 0, 0, 0.139061, 0, 0, 0, 0.139061, -0.303812, 0.198148, -0.733653)
+mesh = SubResource("SphereMesh_wvb1j")
 
 [node name="health_bar" type="Node3D" parent="y_offset"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.745961, 0)

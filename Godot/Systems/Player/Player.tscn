@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://c3efymn0wqovn"]
+[gd_scene load_steps=13 format=3 uid="uid://c3efymn0wqovn"]
 
 [ext_resource type="Script" path="res://Systems/Player/player.gd" id="1_rknhw"]
 [ext_resource type="Environment" uid="uid://rpk8x1fify2a" path="res://imports/mapImport/environment.tres" id="2_g7i6p"]
@@ -17,6 +17,8 @@ albedo_color = Color(1, 0, 1, 1)
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_phmsb"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_vqdam"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_vy3tm"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_uht1t"]
 font_size = 34
@@ -55,6 +57,13 @@ mesh = SubResource("BoxMesh_vqdam")
 
 [node name="bulletSpawn" type="Node3D" parent="camRoot/Camera3D/Gun"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.550294)
+
+[node name="skull_hook_point" type="Node3D" parent="camRoot/Camera3D/Gun"]
+transform = Transform3D(0.999999, 0, 0, 0, 0.999999, 0, 0, 0, 1, 0, 0, -0.756313)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="camRoot/Camera3D/Gun/skull_hook_point"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.0851415, 0, 0, 0)
+mesh = SubResource("PrismMesh_vy3tm")
 
 [node name="AimRay" type="RayCast3D" parent="camRoot/Camera3D"]
 transform = Transform3D(-0.1, 0, -6.62067e-08, 0, 0.1, 0, 8.74228e-09, 0, -0.757316, 0, 0, -0.155142)
