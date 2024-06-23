@@ -1,6 +1,5 @@
 extends CharacterBody3D
 
-
 # signals
 signal enemy_hit(health)
 
@@ -15,8 +14,9 @@ const distance_to_damage := 1.5
 @onready var hurtbox:Area3D = $y_offset/hurtbox
 @onready var nav:NavigationAgent3D = $NavigationAgent3D
 @onready var obj_y_offset := $y_offset
-@onready var obj_animTree := get_node("y_offset/enemy/AnimationTree")
-@onready var obj_enemy_model := get_node("y_offset/enemy")
+@onready var obj_animTree := get_node("enemy/AnimationTree")
+@onready var obj_enemy_model := get_node("enemy")
+@onready var obj_default_skull_position := get_node("y_offset/default_skull_position")
 var obj_player:CharacterBody3D = null
 var obj_hook_position:Node3D = null
 var obj_score_label:Label = null
@@ -33,6 +33,11 @@ var y_anim_speed = 2
 var y_offset := 0
 var y_anim_time := 0
 var y_height_reduction = -2.00
+var position_mix:float = 0.0
+var hooked := false
+
+# temp
+var temp_pulled = false
 
 
 ### --- main functions
@@ -49,10 +54,11 @@ func _process(delta):
 	if alive:
 		look_at(obj_player.global_position)
 		bullet_collisions()
-		float_y_offset(delta)
+		animate_y_offset(delta)
 		navigate_to_player(delta)
 		handle_player_damage()
-		lerp_to_hook()
+		handle_hooking(delta)
+
 
 
 
@@ -61,9 +67,25 @@ func _process(delta):
 
 ### --- other functions
 
-func lerp_to_hook():
-	if(hovered):
-		set_position(obj_hook_position.global_position)
+func handle_hooking(delta):
+	# listen for hooking changes
+	if Input.is_action_just_pressed("hook") and hovered:
+		set_hooked(true)
+	if Input.is_action_just_released("hook"):
+		set_hooked(false)
+	# mix positions based on hoo ked
+	var mix_change_speed = 5
+	if(hooked):
+		position_mix += mix_change_speed * delta
+	else:
+		position_mix -= mix_change_speed * delta
+		position_mix = clampf(position_mix, 0.0, 1.0)
+	position_mix = clampf(position_mix, 0.0, 1.0)
+	# calculate skull position
+	obj_enemy_model.set_global_position(
+		obj_default_skull_position.global_position.slerp(obj_hook_position.global_position, position_mix)
+	)
+
 
 func handle_player_damage():
 	# get dist
@@ -97,7 +119,7 @@ func navigate_to_player(delta):
 	velocity = velocity.lerp(direction * SPEED, ACCEL * delta)
 	move_and_slide()
 
-func float_y_offset(delta):
+func animate_y_offset(delta):
 	# update timer
 	y_anim_time +=1
 	# calculate y variance
@@ -110,6 +132,12 @@ func float_y_offset(delta):
 	current_offset = lerp(y_height_reduction, current_offset, lerp_factor)
 	# set position
 	obj_y_offset.global_position = Vector3(
+		obj_y_offset.global_position.x,
+		initial_y_height + current_offset,
+		obj_y_offset.global_position.z,
+	)
+	# return position
+	return Vector3(
 		obj_y_offset.global_position.x,
 		initial_y_height + current_offset,
 		obj_y_offset.global_position.z,
@@ -134,17 +162,24 @@ func die():
 	$AnimationPlayer.play("death_anim_events")
 
 
+
+
+
+# ----- external functinos
+
 func deactivate():
 	# deactivate logic
 	active = false
 	global_position = Vector3(0,-200, 0)
 
 func set_hover(b):
-	#hovered = b
+	hovered = b
+	# test visual debug
 	var test_hover = $y_offset/hurtbox/hover_test
 	if(b):
 		test_hover.set_visible(true)
-		hovered = b
 	else:
-		#test_hover.set_visible(false)
-		pass
+		test_hover.set_visible(false)
+
+func set_hooked(b):
+	hooked = b

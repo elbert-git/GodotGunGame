@@ -54,6 +54,9 @@ _data = {
 [node name="enemy" type="CharacterBody3D"]
 collision_layer = 1073741825
 script = ExtResource("1_q5b7n")
+active = null
+alive = null
+hovered = null
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 
@@ -97,7 +100,7 @@ transform = Transform3D(1, 0, 0, 0, 0.173929, 0, 0, 0, 0.0150161, 0.00230694, 0,
 material_override = SubResource("StandardMaterial3D_m6ebr")
 mesh = SubResource("BoxMesh_y40uu")
 
-[node name="default_skull_position" type="Node3D" parent="y_offset"]
+[node name="enemy" parent="y_offset" instance=ExtResource("3_adwns")]
 transform = Transform3D(-0.8, 0, -6.99382e-08, 0, 0.8, 0, 6.99382e-08, 0, -0.8, 0, -0.425994, 0)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -107,8 +110,5 @@ libraries = {
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_aw6rf")
-
-[node name="enemy" parent="." instance=ExtResource("3_adwns")]
-transform = Transform3D(-0.8, 0, -6.99382e-08, 0, 0.8, 0, 6.99382e-08, 0, -0.8, 0, 2.91422, 0)
 
 [connection signal="enemy_hit" from="." to="y_offset/health_bar" method="_on_enemy_enemy_hit"]

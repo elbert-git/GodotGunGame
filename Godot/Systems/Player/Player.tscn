@@ -59,7 +59,7 @@ mesh = SubResource("BoxMesh_vqdam")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.550294)
 
 [node name="skull_hook_point" type="Node3D" parent="camRoot/Camera3D/Gun"]
-transform = Transform3D(0.999999, 0, 0, 0, 0.999999, 0, 0, 0, 1, 0, 0, -0.756313)
+transform = Transform3D(0.999999, 0, 0, 0, 0.999999, 0, 0, 0, 1, 0, 0, -1.79836)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="camRoot/Camera3D/Gun/skull_hook_point"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.0851415, 0, 0, 0)

@@ -50,7 +50,9 @@ var prev_skull = null
 # --------- main functions --------------
 
 func _ready():
+	# set mouse mode cnetered
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	# get initial variables
 	initial_bullet_spawn_pos = obj_bullet_spawn.position
 
 func _physics_process(delta):
@@ -62,6 +64,7 @@ func _physics_process(delta):
 	player_movement()
 	point_gun_at_center()
 	handle_shooting(delta)
+	skull_hover()
 
 
 
@@ -73,12 +76,20 @@ func _physics_process(delta):
 func point_gun_at_center():
 	# default aim
 	var aim_pos:Vector3 = obj_defaultAimPosition.global_position;
+	# if ray collides set new aim
+	if obj_aimRay.is_colliding():
+		aim_pos = obj_aimRay.get_collision_point()
+	# aim the gun
+	obj_gunRoot.look_at(aim_pos)
+	# debug posiition of gun
+	obj_aimRayDebugReticle.global_position = aim_pos
+
+func skull_hover():
 	# unhover skull
 	if(prev_skull != null):
 		prev_skull.set_hover(false)
 	# if ray collides set new aim
 	if obj_aimRay.is_colliding():
-		aim_pos = obj_aimRay.get_collision_point()
 		# hover current skull if it's there 
 		var hit_object = obj_aimRay.get_collider()
 		if(hit_object.get_name() == "hurtbox"):
@@ -86,11 +97,7 @@ func point_gun_at_center():
 			var skull = hit_object.get_parent().get_parent()
 			skull.set_hover(true)
 			prev_skull = skull
-		
-	# aim the gun
-	obj_gunRoot.look_at(aim_pos)
-	# debug posiition of gun
-	obj_aimRayDebugReticle.global_position = aim_pos
+
 
 func handle_shooting(delta):
 	# iterate time
@@ -153,6 +160,9 @@ func player_movement():
 	move_and_slide()
 
 
+
+# --------- external calls --------------
+
 func damage_player():
 		if(!is_invulnerable):
 			# change own health variable
@@ -167,7 +177,6 @@ func damage_player():
 
 
 # --------- signal callbacks --------------
-
 
 func _on_invulnerable_timer_timeout():
 	is_invulnerable = false
