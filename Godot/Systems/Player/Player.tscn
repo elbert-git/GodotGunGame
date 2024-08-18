@@ -169,5 +169,4 @@ shape = SubResource("CapsuleShape3D_4dste")
 [node name="invulnerable_timer" type="Timer" parent="."]
 wait_time = 3.0
 
-[connection signal="player_damaged" from="." to="ui_root/Healthbar" method="_on_player_player_damaged"]
 [connection signal="timeout" from="invulnerable_timer" to="." method="_on_invulnerable_timer_timeout"]

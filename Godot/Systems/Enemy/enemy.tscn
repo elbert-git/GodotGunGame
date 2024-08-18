@@ -110,5 +110,3 @@ mesh = SubResource("CapsuleMesh_aw6rf")
 
 [node name="enemy" parent="." instance=ExtResource("3_adwns")]
 transform = Transform3D(-0.8, 0, -6.99382e-08, 0, 0.8, 0, 6.99382e-08, 0, -0.8, 0, 2.91422, 0)
-
-[connection signal="enemy_hit" from="." to="y_offset/health_bar" method="_on_enemy_enemy_hit"]

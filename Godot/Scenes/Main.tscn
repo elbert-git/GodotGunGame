@@ -1,12 +1,16 @@
 [gd_scene load_steps=6 format=3 uid="uid://c3b1rmvcgssey"]
 
 [ext_resource type="PackedScene" uid="uid://c3efymn0wqovn" path="res://Systems/Player/Player.tscn" id="1_txwmi"]
+[ext_resource type="Script" path="res://Systems/Main.gd" id="1_u5buh"]
 [ext_resource type="PackedScene" uid="uid://b341hqmcb1yh4" path="res://imports/mapImport/map.tscn" id="2_1jdhj"]
 [ext_resource type="Environment" uid="uid://rpk8x1fify2a" path="res://imports/mapImport/environment.tres" id="3_bynod"]
-[ext_resource type="PackedScene" uid="uid://cowk75fi5ywm4" path="res://Systems/Shooting/BulletPool.tscn" id="5_npfkm"]
-[ext_resource type="PackedScene" uid="uid://cw6ib60ji8ns7" path="res://Systems/Enemy/EnemyPool.tscn" id="5_w84xm"]
+[ext_resource type="PackedScene" uid="uid://brt86nl8l072o" path="res://Systems/Enemy/enemy.tscn" id="5_2stdk"]
 
 [node name="Root" type="Node3D"]
+script = ExtResource("1_u5buh")
+
+[node name="Main" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.60935, 5.47267)
 
 [node name="Player" parent="." instance=ExtResource("1_txwmi")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.60935, 5.47267)
@@ -17,10 +21,4 @@ transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource("3_bynod")
 
-[node name="Pools" type="Node3D" parent="."]
-
-[node name="BulletPool" parent="Pools" instance=ExtResource("5_npfkm")]
-
-[node name="EnemyPool" parent="Pools" instance=ExtResource("5_w84xm")]
-
-[connection signal="player_shoots" from="Player" to="Pools/BulletPool" method="_on_player_player_shoots"]
+[node name="enemy" parent="." instance=ExtResource("5_2stdk")]
