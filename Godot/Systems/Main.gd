@@ -6,7 +6,6 @@ const important_node_paths = {
 
 
 func _ready():
-	print("hello from main")
 	pass
 
 func _physics_process(delta):

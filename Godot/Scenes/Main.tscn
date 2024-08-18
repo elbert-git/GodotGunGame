@@ -22,3 +22,6 @@ transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
 environment = ExtResource("3_bynod")
 
 [node name="enemy" parent="." instance=ExtResource("5_2stdk")]
+
+[node name="TestCam" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.17027, 6.16389)

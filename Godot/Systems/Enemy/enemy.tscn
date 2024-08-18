@@ -57,14 +57,13 @@ script = ExtResource("1_q5b7n")
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="NavAgentCollider" type="CollisionShape3D" parent="."]
 shape = SubResource("SphereShape3D_scfgd")
 
 [node name="y_offset" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.34021, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="y_offset"]
-visible = false
+[node name="visualiseYOffset" type="MeshInstance3D" parent="y_offset"]
 mesh = SubResource("SphereMesh_7rb35")
 skeleton = NodePath("../..")
 
@@ -105,8 +104,9 @@ libraries = {
 "": SubResource("AnimationLibrary_yatya")
 }
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("CapsuleMesh_aw6rf")
-
 [node name="enemy" parent="." instance=ExtResource("3_adwns")]
 transform = Transform3D(-0.8, 0, -6.99382e-08, 0, 0.8, 0, 6.99382e-08, 0, -0.8, 0, 2.91422, 0)
+visible = false
+
+[node name="visualiseRoot" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_aw6rf")
