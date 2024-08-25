@@ -30,7 +30,6 @@ func _ready():
 
 #------------- other funcs
 func spawn_available_enemy():
-	print("spawning enemy")
 	# get available enemy
 	var curr_enemy = null
 	for i in TOTAL_INSTANCES:

@@ -19,7 +19,6 @@ var active:= false
 func _ready():
 	pass # Replace with function body.
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if active:
@@ -28,6 +27,8 @@ func _process(delta):
 		# on collision die
 		if(len(Area.get_overlapping_bodies()) > 0):
 			deactivate()
+
+
 
 func activate(pos:Vector3, vel:Vector3):
 	global_position = pos
@@ -39,7 +40,6 @@ func deactivate():
 	global_position = Vector3(0, -20, 0)
 	active = false
 	timer.stop()
-
 
 func _on_timer_timeout():
 	deactivate()

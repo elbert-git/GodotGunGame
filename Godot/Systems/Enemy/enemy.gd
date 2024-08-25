@@ -14,10 +14,11 @@ var rng = RandomNumberGenerator.new()
 const max_health = 100;
 
 # references
+@onready var utilities := preload('res://Systems/Utilities.gd').new()
 @onready var obj_player = get_node('/root/Root').get_important_node('player')
 @onready var obj_nav_agent:NavigationAgent3D = $NavigationAgent3D
 @onready var obj_y_offset:Node3D = $y_offset
-@onready var utilities := preload('res://Systems/Utilities.gd').new()
+
 
 # states
 @export var is_alive:= false;

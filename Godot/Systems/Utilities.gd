@@ -6,3 +6,4 @@ func map_range(val:float, min_a:float, max_a:float, min_b:float, max_b:float, cl
 	if clamp:
 		remapped = clamp(remapped, min_b, max_b)
 	return remapped
+
