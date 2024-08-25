@@ -29,32 +29,21 @@ func _ready():
 
 
 #------------- other funcs
-func spawn_enemy():
+func spawn_available_enemy():
+	print("spawning enemy")
 	# get available enemy
 	var curr_enemy = null
 	for i in TOTAL_INSTANCES:
 		var e = all_instances[i]
-		if e.active == false:
+		if e.is_alive == false:
 			curr_enemy = e
 			break
 	# spawn if available
 	if curr_enemy != null:
-		curr_enemy.activate(create_spawn_position())
+		curr_enemy.activate()
 
-func create_spawn_position():
-	var max_dist = 35
-	var min_dist = 20
-	var distance = rng.randf_range(min_dist, max_dist)
-	var new_dir = Vector3(
-		randf_range(-1.0, 1.0),
-		0,
-		randf_range(-1.0, 1.0)
-	)
-	var new_dir_normalized = new_dir.normalized()
-	var new_pos = new_dir_normalized * distance
-	return new_pos
 
 
 func _on_timer_timeout():
-	spawn_enemy()
+	spawn_available_enemy()
 	timer.start(SPAWN_INTERVAL)

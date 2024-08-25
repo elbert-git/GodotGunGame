@@ -7,9 +7,11 @@ const HEADBOB_PROPS = {
 	"speed": 1.5,
 	"distance_multiplier": 0.75,
 	"height_reduction": -1.75,
-	"distance_threshold": 5.8,
-	"min_distance": 2,
+	"distance_threshold": 8,
+	"min_distance": 4,
 }
+var rng = RandomNumberGenerator.new()
+const max_health = 100;
 
 # references
 @onready var obj_player = get_node('/root/Root').get_important_node('player')
@@ -18,13 +20,14 @@ const HEADBOB_PROPS = {
 @onready var utilities := preload('res://Systems/Utilities.gd').new()
 
 # states
+@export var is_alive:= false;
 var headbob_states = {
 	"time": 0,
 	"initial_y": 0,
 	"offset": 0,
 	"height_reduction_mix": 0
 }
-
+var health = 100;
 
 ### --- main functions
 func _ready():
@@ -32,8 +35,9 @@ func _ready():
 	headbob_states['initial_y'] = obj_y_offset.position.y
 
 func _process(delta):
-	navigate_to_player(delta)
-	animate_headbob(delta)
+	if true: 
+		navigate_to_player(delta);
+		animate_headbob(delta);
 
 
 
@@ -45,7 +49,7 @@ func navigate_to_player(delta):
 	direction = direction.normalized()
 	# apply movement
 	velocity = velocity.lerp(direction * SPEED, ACCEL * delta)
-	# move_and_slide()
+	move_and_slide()
 	# look at player
 	var look_pos = Vector3(obj_player.global_position.x, global_position.y, obj_player.global_position.z)
 	look_at(look_pos)
@@ -78,3 +82,33 @@ func animate_headbob(delta):
 		headbob_states['initial_y'] + final_offset,
 		curr_pos.z
 	)
+
+func create_spawn_position():
+	var max_dist = 35
+	var min_dist = 20
+	var distance = rng.randf_range(min_dist, max_dist);
+	var new_dir = Vector3(
+		randf_range(-1.0, 1.0),
+		0,
+		randf_range(-1.0, 1.0)
+	)
+	var new_dir_normalized = new_dir.normalized()
+	var new_pos = new_dir_normalized * distance
+	return new_pos
+
+
+
+# --- external fucntions
+func activate(): 
+	# set alive
+	is_alive = true
+	# set position
+	global_position = create_spawn_position()
+	# reset health
+	health = max_health
+
+func deactivate():
+	# set alive
+	is_alive = false
+	# set position
+	global_position = Vector3(0, -20, 0)

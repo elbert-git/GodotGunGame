@@ -63,7 +63,8 @@ shape = SubResource("SphereShape3D_scfgd")
 [node name="y_offset" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.34021, 0)
 
-[node name="visualiseYOffset" type="MeshInstance3D" parent="y_offset"]
+[node name="Debug_visualiseYOffset" type="MeshInstance3D" parent="y_offset"]
+visible = false
 mesh = SubResource("SphereMesh_7rb35")
 skeleton = NodePath("../..")
 
@@ -74,7 +75,7 @@ collision_mask = 2147483648
 [node name="CollisionShape3D" type="CollisionShape3D" parent="y_offset/hurtbox"]
 shape = SubResource("SphereShape3D_scfgd")
 
-[node name="hover_test" type="MeshInstance3D" parent="y_offset/hurtbox"]
+[node name="Debug_visualise_hover_test" type="MeshInstance3D" parent="y_offset/hurtbox"]
 transform = Transform3D(0.139061, 0, 0, 0, 0.139061, 0, 0, 0, 0.139061, -0.303812, 0.198148, -0.733653)
 mesh = SubResource("SphereMesh_wvb1j")
 
@@ -96,17 +97,13 @@ transform = Transform3D(1, 0, 0, 0, 0.173929, 0, 0, 0, 0.0150161, 0.00230694, 0,
 material_override = SubResource("StandardMaterial3D_m6ebr")
 mesh = SubResource("BoxMesh_y40uu")
 
-[node name="default_skull_position" type="Node3D" parent="y_offset"]
-transform = Transform3D(-0.8, 0, -6.99382e-08, 0, 0.8, 0, 6.99382e-08, 0, -0.8, 0, -0.425994, 0)
+[node name="enemy_mesh" parent="y_offset" instance=ExtResource("3_adwns")]
+transform = Transform3D(-0.8, 0, -6.99382e-08, 0, 0.8, 0, 6.99382e-08, 0, -0.8, 0, -0.42599, 0)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_yatya")
 }
-
-[node name="enemy" parent="." instance=ExtResource("3_adwns")]
-transform = Transform3D(-0.8, 0, -6.99382e-08, 0, 0.8, 0, 6.99382e-08, 0, -0.8, 0, 2.91422, 0)
-visible = false
 
 [node name="visualiseRoot" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_aw6rf")

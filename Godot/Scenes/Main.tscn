@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://Systems/Main.gd" id="1_u5buh"]
 [ext_resource type="PackedScene" uid="uid://b341hqmcb1yh4" path="res://imports/mapImport/map.tscn" id="2_1jdhj"]
 [ext_resource type="Environment" uid="uid://rpk8x1fify2a" path="res://imports/mapImport/environment.tres" id="3_bynod"]
-[ext_resource type="PackedScene" uid="uid://brt86nl8l072o" path="res://Systems/Enemy/enemy.tscn" id="5_2stdk"]
+[ext_resource type="PackedScene" uid="uid://cw6ib60ji8ns7" path="res://Systems/Enemy/EnemyPool.tscn" id="5_hwwfv"]
 
 [node name="Root" type="Node3D"]
 script = ExtResource("1_u5buh")
@@ -21,7 +21,7 @@ transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource("3_bynod")
 
-[node name="enemy" parent="." instance=ExtResource("5_2stdk")]
-
 [node name="TestCam" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.17027, 6.16389)
+
+[node name="EnemyPool" parent="." instance=ExtResource("5_hwwfv")]
