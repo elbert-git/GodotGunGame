@@ -23,5 +23,8 @@ func set_health_bar(percent):
 	el_health_bar.size.x = new_size
 
 
-func _on_player_player_damaged(new_health):
-	set_health_bar(new_health)
+
+# --- signals
+# listen to player health updates
+func _on_player_player_hit(newHealth):
+	set_health_bar(newHealth)

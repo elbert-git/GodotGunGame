@@ -64,6 +64,7 @@ hook={
 
 [layer_names]
 
+3d_physics/layer_2="player"
 3d_physics/layer_31="enemy"
 3d_physics/layer_32="bullet"
 

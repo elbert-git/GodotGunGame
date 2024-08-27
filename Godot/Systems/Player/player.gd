@@ -15,6 +15,7 @@ const shooting_properties = {
 	"fire_per_second": 10.0,
 }
 # character properties
+var health  = 100.0
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 const JUMP_VELOCITY = 4.5
 const SPEED = 5.0
@@ -28,6 +29,13 @@ var camera_rotation:Vector3
 var shooting_states = {
 	"fire_time": 0.0
 }
+
+
+
+## --- signals
+signal player_hit(newHealth:float)
+
+
 
 # --- main functions
 func _ready():
@@ -110,3 +118,14 @@ func point_gun_at_center():
 		obj_aim_ray_reticle.global_position = point
 	else: 
 		obj_aim_ray_reticle.global_position = $camRoot/Camera3D/defaultAim.global_position
+
+
+
+## --- signal callbacks
+# enemy collision
+func _on_area_for_enemy_area_entered(area):
+	print("player got hit")
+	# udpate health, take damage 
+	health -= 10.0
+	# emit player hit to enemy signal
+	emit_signal("player_hit", health)

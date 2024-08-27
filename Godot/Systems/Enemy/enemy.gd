@@ -1,6 +1,7 @@
 extends CharacterBody3D
 
 # props
+const BULLET_DAMAGE = 10.0
 const SPEED = 2
 const ACCEL = 10
 const HEADBOB_PROPS = {
@@ -12,14 +13,11 @@ const HEADBOB_PROPS = {
 }
 var rng = RandomNumberGenerator.new()
 const max_health = 100;
-
 # references
 @onready var utilities := preload('res://Systems/Utilities.gd').new()
 @onready var obj_player = get_node('/root/Root').get_important_node('player')
 @onready var obj_nav_agent:NavigationAgent3D = $NavigationAgent3D
 @onready var obj_y_offset:Node3D = $y_offset
-
-
 # states
 @export var is_alive:= false;
 var headbob_states = {
@@ -30,11 +28,17 @@ var headbob_states = {
 }
 var health = 100;
 
+
+
+### --- signals
+signal _on_enemy_hit(newHealthValue:float)
+
+
+
 ### --- main functions
 func _ready():
 	# get initial y offset position
 	headbob_states['initial_y'] = obj_y_offset.position.y
-
 func _process(delta):
 	if true: 
 		navigate_to_player(delta);
@@ -54,7 +58,6 @@ func navigate_to_player(delta):
 	# look at player
 	var look_pos = Vector3(obj_player.global_position.x, global_position.y, obj_player.global_position.z)
 	look_at(look_pos)
-
 func animate_headbob(delta):
 	# iterate time 
 	headbob_states['time'] += delta
@@ -83,7 +86,6 @@ func animate_headbob(delta):
 		headbob_states['initial_y'] + final_offset,
 		curr_pos.z
 	)
-
 func create_spawn_position():
 	var max_dist = 35
 	var min_dist = 20
@@ -107,9 +109,29 @@ func activate():
 	global_position = create_spawn_position()
 	# reset health
 	health = max_health
-
+	emit_signal("_on_enemy_hit", health); # reset health bar
 func deactivate():
 	# set alive
 	is_alive = false
 	# set position
 	global_position = Vector3(0, -20, 0)
+
+
+
+# --- signal callbacks
+# on bullet collision
+func _on_hurtbox_area_entered(area):
+	# take damage
+	# update health 
+	if area.name == "area_for_enemy":
+		health = 0.0 
+	elif area.name == "Area3D":
+		health -= 10.0
+	else: 
+		print("error enemy does not recognise collider")
+	# todo play hit animation
+	# emit signal hit
+	emit_signal("_on_enemy_hit", health);
+	if(health <= 0):
+		print("enemy_death")
+		deactivate()

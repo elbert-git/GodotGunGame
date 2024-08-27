@@ -32,6 +32,9 @@ radius = 0.834501
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("CAMERA_CONTROLLER")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.734, 0)
 script = ExtResource("1_rknhw")
+MOUSE_SENSITIVITY = null
+TILT_LOWER_LIMIT = null
+TILT_UPPER_LIMIT = null
 CAMERA_CONTROLLER = NodePath("camRoot/Camera3D")
 
 [node name="aim_ray_reticle" type="MeshInstance3D" parent="."]
@@ -152,8 +155,8 @@ label_settings = SubResource("LabelSettings_uht1t")
 script = ExtResource("5_sb67u")
 
 [node name="area_for_enemy" type="Area3D" parent="."]
-collision_layer = 2
-collision_mask = 1073741826
+collision_layer = 2147483650
+collision_mask = 2147483650
 
 [node name="hitbox_enemy" type="CollisionShape3D" parent="area_for_enemy"]
 shape = SubResource("CylinderShape3D_a6k4a")

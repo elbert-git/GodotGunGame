@@ -1,13 +1,17 @@
-[gd_scene load_steps=14 format=3 uid="uid://brt86nl8l072o"]
+[gd_scene load_steps=15 format=3 uid="uid://brt86nl8l072o"]
 
 [ext_resource type="Script" path="res://Systems/Enemy/enemy.gd" id="1_q5b7n"]
 [ext_resource type="Script" path="res://Systems/Enemy/enemy_health_bar.gd" id="2_tra56"]
 [ext_resource type="PackedScene" uid="uid://cifawlj6uk74q" path="res://imports/enemy/enemy_imported.tscn" id="3_adwns"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_scfgd"]
-radius = 0.4
+radius = 0.490896
 
 [sub_resource type="SphereMesh" id="SphereMesh_7rb35"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xv8be"]
+radius = 0.333868
+height = 1.0823
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rbi0d"]
 shading_mode = 0
@@ -69,11 +73,12 @@ mesh = SubResource("SphereMesh_7rb35")
 skeleton = NodePath("../..")
 
 [node name="hurtbox" type="Area3D" parent="y_offset"]
-collision_layer = 1073741825
-collision_mask = 2147483648
+collision_layer = 1073741824
+collision_mask = 2147483650
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="y_offset/hurtbox"]
-shape = SubResource("SphereShape3D_scfgd")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.210702, 0)
+shape = SubResource("CapsuleShape3D_xv8be")
 
 [node name="Debug_visualise_hover_test" type="MeshInstance3D" parent="y_offset/hurtbox"]
 transform = Transform3D(0.139061, 0, 0, 0, 0.139061, 0, 0, 0, 0.139061, -0.303812, 0.198148, -0.733653)
@@ -107,3 +112,6 @@ libraries = {
 
 [node name="visualiseRoot" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_aw6rf")
+
+[connection signal="_on_enemy_hit" from="." to="y_offset/health_bar" method="_on_enemy__on_enemy_hit"]
+[connection signal="area_entered" from="y_offset/hurtbox" to="." method="_on_hurtbox_area_entered"]
