@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://c3efymn0wqovn"]
+[gd_scene load_steps=14 format=3 uid="uid://c3efymn0wqovn"]
 
 [ext_resource type="Script" path="res://Systems/Player/player.gd" id="1_rknhw"]
 [ext_resource type="Environment" uid="uid://rpk8x1fify2a" path="res://imports/mapImport/environment.tres" id="2_g7i6p"]
@@ -19,6 +19,8 @@ height = 1.95292
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_phmsb"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_vqdam"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_4et3b"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_uht1t"]
 font_size = 34
@@ -60,6 +62,14 @@ mesh = SubResource("BoxMesh_vqdam")
 
 [node name="bulletSpawn" type="Node3D" parent="camRoot/Camera3D/Gun"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.550294)
+
+[node name="Debug_bulletSpawnVisual" type="Node3D" parent="camRoot/Camera3D/Gun/bulletSpawn"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="camRoot/Camera3D/Gun/bulletSpawn/Debug_bulletSpawnVisual"]
+transform = Transform3D(1, 0, 0, 0, -7.74759e-08, 0.242707, 0, -1.77244, -1.06091e-08, 0, 0, -0.991184)
+mesh = SubResource("PrismMesh_4et3b")
+skeleton = NodePath("../..")
 
 [node name="AimRay" type="RayCast3D" parent="camRoot/Camera3D"]
 transform = Transform3D(-0.1, 0, -6.62067e-08, 0, 0.1, 0, 8.74228e-09, 0, -0.757316, 0, 0, -0.155142)
@@ -147,7 +157,7 @@ offset_top = 16.0
 offset_right = -19.0
 offset_bottom = 63.0
 grow_horizontal = 0
-text = "Score: 000000"
+text = "000000"
 label_settings = SubResource("LabelSettings_uht1t")
 script = ExtResource("5_sb67u")
 

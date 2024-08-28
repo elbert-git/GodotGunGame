@@ -11,7 +11,7 @@ var all_instances:Array[Node3D] = []
 var next_id:= 1
 
 
-
+var temp_count = 0
 
 
 
@@ -31,6 +31,8 @@ func _ready():
 
 # ------------------ other functions
 func shoot(pos:Vector3, vel:Vector3):
+	temp_count+=1
+	$Label.text = str(vel)
 	# get bullet 
 	var bullet = all_instances[next_id]
 	# shoot bullet

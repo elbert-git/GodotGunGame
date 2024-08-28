@@ -1,5 +1,6 @@
 extends Node3D
 
+# --- states
 # get node 
 @onready var Area:Area3D = get_node("Area3D")
 @onready var timer:= $Timer
@@ -12,7 +13,13 @@ var active:= false
 
 
 
-# Called when the node enters the scene tree for the first time.
+
+
+
+
+
+
+## --- main functions
 func _ready():
 	pass # Replace with function body.
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -26,16 +33,24 @@ func _process(delta):
 
 
 
+
+
+
+## -- external functions
 func activate(pos:Vector3, vel:Vector3):
+	print(vel)
 	global_position = pos
 	look_at(global_position + vel)
 	active = true
 	timer.start(LIFESPAN)
-
 func deactivate():
 	global_position = Vector3(0, -20, 0)
 	active = false
 	timer.stop()
+
+
+
+
 
 
 # --- signal callbacks

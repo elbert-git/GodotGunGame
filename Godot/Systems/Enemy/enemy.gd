@@ -30,8 +30,23 @@ var health = 100;
 
 
 
+
+
+
+
+
+
+
 ### --- signals
 signal _on_enemy_hit(newHealthValue:float)
+signal died_from_bullets()
+
+
+
+
+
+
+
 
 
 
@@ -43,6 +58,13 @@ func _process(delta):
 	if true: 
 		navigate_to_player(delta);
 		animate_headbob(delta);
+
+
+
+
+
+
+
 
 
 
@@ -101,6 +123,13 @@ func create_spawn_position():
 
 
 
+
+
+
+
+
+
+
 # --- external fucntions
 func activate(): 
 	# set alive
@@ -118,6 +147,13 @@ func deactivate():
 
 
 
+
+
+
+
+
+
+
 # --- signal callbacks
 # on bullet collision
 func _on_hurtbox_area_entered(area):
@@ -125,13 +161,15 @@ func _on_hurtbox_area_entered(area):
 	# update health 
 	if area.name == "area_for_enemy":
 		health = 0.0 
+		if(health <= 0):
+			deactivate()
 	elif area.name == "Area3D":
 		health -= 10.0
+		if(health <= 0):
+			deactivate()
+			emit_signal("died_from_bullets")
 	else: 
 		print("error enemy does not recognise collider")
 	# todo play hit animation
 	# emit signal hit
 	emit_signal("_on_enemy_hit", health);
-	if(health <= 0):
-		print("enemy_death")
-		deactivate()

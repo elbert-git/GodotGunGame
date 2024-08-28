@@ -69,6 +69,8 @@ func player_movement():
 	# Handle jump input
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
+		for i in 20:
+			print("------")
 	# get input axis
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward" ,"move_backward")
 	# create direction from input
@@ -118,7 +120,7 @@ func point_gun_at_center():
 		obj_aim_ray_reticle.global_position = point
 	else: 
 		obj_aim_ray_reticle.global_position = $camRoot/Camera3D/defaultAim.global_position
-
+	$camRoot/Camera3D/Gun/bulletSpawn/Debug_bulletSpawnVisual.look_at(obj_aim_ray_reticle.global_position)
 
 
 ## --- signal callbacks

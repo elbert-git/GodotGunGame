@@ -22,9 +22,6 @@ transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource("3_bynod")
 
-[node name="TestCam" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.17027, 6.16389)
-
 [node name="EnemyPool" parent="." instance=ExtResource("5_hwwfv")]
 
 [node name="BulletPool" parent="." instance=ExtResource("6_npf6o")]

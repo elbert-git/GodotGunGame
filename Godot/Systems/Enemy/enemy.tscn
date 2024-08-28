@@ -110,7 +110,8 @@ libraries = {
 "": SubResource("AnimationLibrary_yatya")
 }
 
-[node name="visualiseRoot" type="MeshInstance3D" parent="."]
+[node name="Debug_visualiseRoot" type="MeshInstance3D" parent="."]
+visible = false
 mesh = SubResource("CapsuleMesh_aw6rf")
 
 [connection signal="_on_enemy_hit" from="." to="y_offset/health_bar" method="_on_enemy__on_enemy_hit"]
