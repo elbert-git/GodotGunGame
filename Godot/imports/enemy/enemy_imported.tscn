@@ -316,10 +316,10 @@ node_connections = [&"T_hitType", 0, &"Animation 5", &"T_hitType", 1, &"Animatio
 [node name="enemy" instance=ExtResource("1_7vw6x")]
 
 [node name="Skeleton3D" parent="Armature" index="0"]
-bones/0/position = Vector3(6.37296e-17, 0.150116, -0.180592)
-bones/0/rotation = Quaternion(0.0603956, -2.89529e-18, -3.56225e-17, 0.998175)
-bones/1/position = Vector3(1.25387e-08, -0.20206, 0.360713)
-bones/1/rotation = Quaternion(0.649149, -3.5875e-07, -3.75125e-07, 0.760661)
+bones/0/position = Vector3(6.37296e-17, 0.0112084, -0.180592)
+bones/0/rotation = Quaternion(0.119125, -1.24679e-18, -3.57489e-17, 0.992879)
+bones/1/position = Vector3(-1.48477e-08, -0.177747, 0.376888)
+bones/1/rotation = Quaternion(0.693173, -3.94255e-07, -3.41772e-07, 0.720771)
 
 [node name="polySurface2" parent="Armature/Skeleton3D" index="0"]
 material_override = SubResource("StandardMaterial3D_jiimb")

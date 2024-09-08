@@ -78,7 +78,7 @@ collision_mask = 1073741825
 collide_with_areas = true
 
 [node name="defaultAim" type="Node3D" parent="camRoot/Camera3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -184)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -24.2772)
 
 [node name="soldier_anim" parent="camRoot/Camera3D" instance=ExtResource("3_hnwix")]
 transform = Transform3D(-0.864001, 0, 7.55333e-08, 0, 0.864001, 0, -7.55333e-08, 0, -0.864001, -0.129299, -4.47486, 0.50096)
