@@ -289,7 +289,7 @@ input_1/auto_advance = false
 input_1/reset = true
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_7258o"]
-graph_offset = Vector2(-787.356, 711.507)
+graph_offset = Vector2(-1213.1, 394.898)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_y1wcc")
 nodes/Animation/position = Vector2(-840, 160)
 "nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_qcn61")
@@ -316,10 +316,10 @@ node_connections = [&"T_hitType", 0, &"Animation 5", &"T_hitType", 1, &"Animatio
 [node name="enemy" instance=ExtResource("1_7vw6x")]
 
 [node name="Skeleton3D" parent="Armature" index="0"]
-bones/0/position = Vector3(6.37296e-17, 0.0320469, -0.180592)
-bones/0/rotation = Quaternion(0.0937371, -2.89757e-18, -3.56505e-17, 0.995597)
-bones/1/position = Vector3(1.33442e-08, -0.174859, 0.370105)
-bones/1/rotation = Quaternion(0.674557, -4.02675e-07, -3.32745e-07, 0.738222)
+bones/0/position = Vector3(6.37296e-17, 0.150116, -0.180592)
+bones/0/rotation = Quaternion(0.0603956, -2.89529e-18, -3.56225e-17, 0.998175)
+bones/1/position = Vector3(1.25387e-08, -0.20206, 0.360713)
+bones/1/rotation = Quaternion(0.649149, -3.5875e-07, -3.75125e-07, 0.760661)
 
 [node name="polySurface2" parent="Armature/Skeleton3D" index="0"]
 material_override = SubResource("StandardMaterial3D_jiimb")

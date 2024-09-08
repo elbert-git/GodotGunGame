@@ -1,7 +1,8 @@
-[gd_scene load_steps=14 format=3 uid="uid://c3efymn0wqovn"]
+[gd_scene load_steps=15 format=3 uid="uid://c3efymn0wqovn"]
 
 [ext_resource type="Script" path="res://Systems/Player/player.gd" id="1_rknhw"]
 [ext_resource type="Environment" uid="uid://rpk8x1fify2a" path="res://imports/mapImport/environment.tres" id="2_g7i6p"]
+[ext_resource type="PackedScene" uid="uid://uxnc147kuxhe" path="res://Systems/Player/soldier_anim.tscn" id="3_hnwix"]
 [ext_resource type="Texture2D" uid="uid://u8rheqbyo63a" path="res://imports/ui/reticle_withAlpha.png" id="4_gbkj1"]
 [ext_resource type="Script" path="res://Systems/Player/health_bar.gd" id="4_sk4cf"]
 [ext_resource type="Script" path="res://Systems/Ui/score_label.gd" id="5_sb67u"]
@@ -61,10 +62,9 @@ transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.757316, 0.284599, -0.31390
 mesh = SubResource("BoxMesh_vqdam")
 
 [node name="bulletSpawn" type="Node3D" parent="camRoot/Camera3D/Gun"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.550294)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.71434)
 
 [node name="Debug_bulletSpawnVisual" type="Node3D" parent="camRoot/Camera3D/Gun/bulletSpawn"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="camRoot/Camera3D/Gun/bulletSpawn/Debug_bulletSpawnVisual"]
 transform = Transform3D(1, 0, 0, 0, -7.74759e-08, 0.242707, 0, -1.77244, -1.06091e-08, 0, 0, -0.991184)
@@ -79,6 +79,9 @@ collide_with_areas = true
 
 [node name="defaultAim" type="Node3D" parent="camRoot/Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -184)
+
+[node name="soldier_anim" parent="camRoot/Camera3D" instance=ExtResource("3_hnwix")]
+transform = Transform3D(-0.864001, 0, 7.55333e-08, 0, 0.864001, 0, -7.55333e-08, 0, -0.864001, -0.129299, -4.47486, 0.50096)
 
 [node name="ui_root" type="Control" parent="."]
 layout_mode = 3
@@ -171,6 +174,7 @@ shape = SubResource("CylinderShape3D_a6k4a")
 [node name="invulnerable_timer" type="Timer" parent="."]
 wait_time = 3.0
 
+[connection signal="play_sodlier_animation" from="." to="camRoot/Camera3D/soldier_anim" method="_on_player_play_sodlier_animation"]
 [connection signal="player_hit" from="." to="ui_root/Healthbar" method="_on_player_player_hit"]
 [connection signal="area_entered" from="area_for_enemy" to="." method="_on_area_for_enemy_area_entered"]
 [connection signal="timeout" from="invulnerable_timer" to="." method="_on_invulnerable_timer_timeout"]

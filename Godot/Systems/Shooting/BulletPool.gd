@@ -5,7 +5,6 @@ var bullet_scene = preload("res://Systems/Shooting/bullet.tscn")
 
 # props
 const TOTAL_INSTANCES = 100
-
 # states
 var all_instances:Array[Node3D] = []
 var next_id:= 1

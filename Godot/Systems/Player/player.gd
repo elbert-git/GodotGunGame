@@ -12,7 +12,7 @@ extends CharacterBody3D
 @onready var obj_aim_ray :RayCast3D = get_node('camRoot/Camera3D/AimRay')
 # props
 const shooting_properties = {
-	"fire_per_second": 10.0,
+	"fire_per_second": 15.0,
 }
 # character properties
 var health  = 100.0
@@ -34,6 +34,7 @@ var shooting_states = {
 
 ## --- signals
 signal player_hit(newHealth:float)
+signal play_sodlier_animation(animation:String)
 
 
 
@@ -105,6 +106,9 @@ func handle_shooting(delta):
 	var shooting_vector:Vector3 = (
 		obj_bullet_spawn.global_position - obj_aim_ray_reticle.global_position
 	).normalized()
+	# randomize shooting vector
+	shooting_vector = shooting_vector.rotated(Vector3.UP, randf_range(0.0, 0.1))
+	shooting_vector = shooting_vector.rotated(Vector3.RIGHT, randf_range(0.0, 0.1))
 	# shoot
 	if Input.is_action_pressed("shoot") and shooting_states['fire_time']<0:
 		obj_bullet_pool.shoot(
@@ -112,6 +116,8 @@ func handle_shooting(delta):
 			shooting_vector
 		)
 		shooting_states['fire_time'] = 1/shooting_properties.fire_per_second
+		# play animation
+		emit_signal("play_sodlier_animation", "shoot")
 	# handle fire rate
 	shooting_states['fire_time'] -= delta
 func point_gun_at_center():
