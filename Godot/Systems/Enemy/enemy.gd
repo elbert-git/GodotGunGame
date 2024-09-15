@@ -18,6 +18,7 @@ const max_health = 100;
 @onready var obj_player = get_node('/root/Root').get_important_node('player')
 @onready var obj_nav_agent:NavigationAgent3D = $NavigationAgent3D
 @onready var obj_y_offset:Node3D = $y_offset
+@onready var obj_hurbox:Area3D = $y_offset/hurtbox
 # states
 @export var is_alive:= false;
 var headbob_states = {
@@ -27,6 +28,8 @@ var headbob_states = {
 	"height_reduction_mix": 0
 }
 var health = 100;
+var speed_multiplier := 1  # this prevents movement because idk why i can't change laive
+var hurtbox_is_active := false
 
 
 
@@ -40,7 +43,7 @@ var health = 100;
 ### --- signals
 signal _on_enemy_hit(newHealthValue:float)
 signal died_from_bullets()
-
+signal trigger_animation(key:String)
 
 
 
@@ -75,7 +78,7 @@ func navigate_to_player(delta):
 	direction = obj_nav_agent.get_next_path_position() - global_position
 	direction = direction.normalized()
 	# apply movement
-	velocity = velocity.lerp(direction * SPEED, ACCEL * delta)
+	velocity = velocity.lerp(direction * SPEED, ACCEL * delta) * speed_multiplier
 	move_and_slide()
 	# look at player
 	var look_pos = Vector3(obj_player.global_position.x, global_position.y, obj_player.global_position.z)
@@ -120,7 +123,18 @@ func create_spawn_position():
 	var new_dir_normalized = new_dir.normalized()
 	var new_pos = new_dir_normalized * distance
 	return new_pos
-
+func set_hurtbox_active(b:bool):
+	obj_hurbox.monitorable = b
+	obj_hurbox.monitoring = b
+	hurtbox_is_active = b
+func triggger_death():
+	print("enemy has died")
+	# stop movement
+	speed_multiplier = 0
+	# stop colliders
+	set_hurtbox_active(false)
+	# start death animation
+	emit_signal("trigger_animation", "death")
 
 
 
@@ -134,14 +148,20 @@ func create_spawn_position():
 func activate(): 
 	# set alive
 	is_alive = true
+	speed_multiplier = 1
 	# set position
 	global_position = create_spawn_position()
 	# reset health
 	health = max_health
+	# reset colliders
+	set_hurtbox_active(true)
 	emit_signal("_on_enemy_hit", health); # reset health bar
+	# reset animaiotn state
+	emit_signal("trigger_animation", "alive")
 func deactivate():
 	# set alive
 	is_alive = false
+	speed_multiplier = 0
 	# set position
 	global_position = Vector3(0, -20, 0)
 
@@ -157,19 +177,20 @@ func deactivate():
 # --- signal callbacks
 # on bullet collision
 func _on_hurtbox_area_entered(area):
-	# take damage
-	# update health 
-	if area.name == "area_for_enemy":
-		health = 0.0 
-		if(health <= 0):
-			deactivate()
-	elif area.name == "Area3D":
-		health -= 10.0
-		if(health <= 0):
-			deactivate()
-			emit_signal("died_from_bullets")
-	else: 
-		print("error enemy does not recognise collider")
-	# todo play hit animation
-	# emit signal hit
-	emit_signal("_on_enemy_hit", health);
+	if hurtbox_is_active:
+		# take damage
+		# update health 
+		if area.name == "area_for_enemy":
+			health = 0.0 
+			if(health <= 0):
+				triggger_death()
+		elif area.name == "Area3D":
+			health -= 10.0
+			if(health <= 0):
+				triggger_death()
+				emit_signal("died_from_bullets")
+		else: 
+			print("error enemy does not recognise collider")
+		# todo play hit animation
+		# emit signal hit
+		emit_signal("_on_enemy_hit", health);

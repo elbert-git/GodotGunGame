@@ -1,7 +1,8 @@
-[gd_scene load_steps=21 format=3 uid="uid://cifawlj6uk74q"]
+[gd_scene load_steps=22 format=3 uid="uid://cifawlj6uk74q"]
 
 [ext_resource type="PackedScene" uid="uid://dwchner853dts" path="res://imports/enemy/enemy.gltf" id="1_7vw6x"]
 [ext_resource type="Texture2D" uid="uid://cbqib8uxlowce" path="res://imports/enemy/skullTexture.png" id="2_dc8fe"]
+[ext_resource type="Script" path="res://Systems/Enemy/enemy_animation_deactivation.gd" id="2_oe2p0"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jiimb"]
 shading_mode = 0
@@ -314,12 +315,13 @@ nodes/state/position = Vector2(100, 780)
 node_connections = [&"T_hitType", 0, &"Animation 5", &"T_hitType", 1, &"Animation 4", &"T_hitType", 2, &"Animation 3", &"TimeScale", 0, &"T_hitType", &"TimeSeek", 0, &"Animation 2", &"os_hit", 0, &"Animation", &"os_hit", 1, &"TimeScale", &"output", 0, &"state", &"state", 0, &"os_hit", &"state", 1, &"TimeSeek"]
 
 [node name="enemy" instance=ExtResource("1_7vw6x")]
+script = ExtResource("2_oe2p0")
 
 [node name="Skeleton3D" parent="Armature" index="0"]
-bones/0/position = Vector3(6.37296e-17, 0.0112084, -0.180592)
-bones/0/rotation = Quaternion(0.119125, -1.24679e-18, -3.57489e-17, 0.992879)
-bones/1/position = Vector3(-1.48477e-08, -0.177747, 0.376888)
-bones/1/rotation = Quaternion(0.693173, -3.94255e-07, -3.41772e-07, 0.720771)
+bones/0/position = Vector3(6.37296e-17, 0.285033, -0.180592)
+bones/0/rotation = Quaternion(0.102345, -1.58923e-18, -3.56308e-17, 0.994749)
+bones/1/position = Vector3(8.1614e-11, -0.221947, 0.353389)
+bones/1/rotation = Quaternion(0.689364, -3.58848e-07, -3.77093e-07, 0.724415)
 
 [node name="polySurface2" parent="Armature/Skeleton3D" index="0"]
 material_override = SubResource("StandardMaterial3D_jiimb")

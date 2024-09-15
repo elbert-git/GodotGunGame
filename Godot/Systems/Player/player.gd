@@ -70,8 +70,6 @@ func player_movement():
 	# Handle jump input
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
-		for i in 20:
-			print("------")
 	# get input axis
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward" ,"move_backward")
 	# create direction from input
