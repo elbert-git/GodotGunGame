@@ -86,6 +86,7 @@ mesh = SubResource("SphereMesh_wvb1j")
 
 [node name="health_bar" type="Node3D" parent="y_offset"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.745961, 0)
+visible = false
 script = ExtResource("2_tra56")
 
 [node name="fill" type="Node3D" parent="y_offset/health_bar"]

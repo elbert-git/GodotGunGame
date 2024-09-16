@@ -2,7 +2,7 @@ extends CharacterBody3D
 
 # props
 const BULLET_DAMAGE = 10.0
-const SPEED = 2
+const SPEED = 5
 const ACCEL = 10
 const HEADBOB_PROPS = {
 	"speed": 1.5,
@@ -18,7 +18,6 @@ const max_health = 100;
 @onready var obj_player = get_node('/root/Root').get_important_node('player')
 @onready var obj_nav_agent:NavigationAgent3D = $NavigationAgent3D
 @onready var obj_y_offset:Node3D = $y_offset
-@onready var obj_hurbox:Area3D = $y_offset/hurtbox
 # states
 @export var is_alive:= false;
 var headbob_states = {
@@ -124,9 +123,9 @@ func create_spawn_position():
 	var new_pos = new_dir_normalized * distance
 	return new_pos
 func set_hurtbox_active(b:bool):
-	obj_hurbox.monitorable = b
-	obj_hurbox.monitoring = b
 	hurtbox_is_active = b
+	$y_offset/hurtbox/CollisionShape3D.call_deferred("set_disabled", !b)
+	$NavAgentCollider.call_deferred('set_disabled',!b)
 func triggger_death():
 	print("enemy has died")
 	# stop movement
@@ -180,12 +179,12 @@ func _on_hurtbox_area_entered(area):
 	if hurtbox_is_active:
 		# take damage
 		# update health 
-		if area.name == "area_for_enemy":
+		if area.name == "area_for_enemy": # on hit with player, die
 			health = 0.0 
 			if(health <= 0):
 				triggger_death()
-		elif area.name == "Area3D":
-			health -= 10.0
+		elif area.name == "Area3D": # on hit with bullet
+			health -= 30.0 # damage
 			if(health <= 0):
 				triggger_death()
 				emit_signal("died_from_bullets")

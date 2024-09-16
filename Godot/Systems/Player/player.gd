@@ -18,7 +18,7 @@ const shooting_properties = {
 var health  = 100.0
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 const JUMP_VELOCITY = 4.5
-const SPEED = 5.0
+const SPEED = 8.0
 # input states
 var mouse_input:bool = false
 var mouse_rotation:Vector3
@@ -130,8 +130,8 @@ func point_gun_at_center():
 ## --- signal callbacks
 # enemy collision
 func _on_area_for_enemy_area_entered(area):
-	print("player got hit")
+	print("player got hit", area.name)
 	# udpate health, take damage 
-	health -= 10.0
+	health -= 33.0
 	# emit player hit to enemy signal
 	emit_signal("player_hit", health)
