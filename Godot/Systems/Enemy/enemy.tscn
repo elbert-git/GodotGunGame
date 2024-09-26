@@ -118,3 +118,4 @@ mesh = SubResource("CapsuleMesh_aw6rf")
 [connection signal="_on_enemy_hit" from="." to="y_offset/health_bar" method="_on_enemy__on_enemy_hit"]
 [connection signal="trigger_animation" from="." to="y_offset/enemy_mesh" method="_on_enemy_trigger_animation"]
 [connection signal="area_entered" from="y_offset/hurtbox" to="." method="_on_hurtbox_area_entered"]
+[connection signal="death_animation_end" from="y_offset/enemy_mesh" to="." method="_on_enemy_mesh_death_animation_end"]

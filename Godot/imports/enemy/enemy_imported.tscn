@@ -54,6 +54,23 @@ tracks/5/path = NodePath("Armature/Skeleton3D:Bone.001")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = PackedFloat32Array(0, 1, 1, 1, 1, 0.433333, 1, 1, 1, 1, 0.466667, 1, 1.34992, 1.34992, 1.34992, 0.5, 1, 2.74959, 2.74959, 2.74959, 0.541667, 1, 0, 0, 0)
+tracks/6/type = "method"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath(".")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.2364, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"on_death_finish"
+}, {
+"args": [],
+"method": &"on_death_finish"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_uaifs"]
 resource_name = "hit_1"
@@ -290,7 +307,7 @@ input_1/auto_advance = false
 input_1/reset = true
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_7258o"]
-graph_offset = Vector2(-1213.1, 394.898)
+graph_offset = Vector2(-587.5, 1015)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_y1wcc")
 nodes/Animation/position = Vector2(-840, 160)
 "nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_qcn61")
@@ -314,14 +331,15 @@ nodes/state/node = SubResource("AnimationNodeTransition_pdv8d")
 nodes/state/position = Vector2(100, 780)
 node_connections = [&"T_hitType", 0, &"Animation 5", &"T_hitType", 1, &"Animation 4", &"T_hitType", 2, &"Animation 3", &"TimeScale", 0, &"T_hitType", &"TimeSeek", 0, &"Animation 2", &"os_hit", 0, &"Animation", &"os_hit", 1, &"TimeScale", &"output", 0, &"state", &"state", 0, &"os_hit", &"state", 1, &"TimeSeek"]
 
-[node name="enemy" instance=ExtResource("1_7vw6x")]
+[node name="enemy" node_paths=PackedStringArray("obj_timer") instance=ExtResource("1_7vw6x")]
 script = ExtResource("2_oe2p0")
+obj_timer = NodePath("Timer")
 
 [node name="Skeleton3D" parent="Armature" index="0"]
-bones/0/position = Vector3(6.37296e-17, 0.285033, -0.180592)
-bones/0/rotation = Quaternion(0.102345, -1.58923e-18, -3.56308e-17, 0.994749)
-bones/1/position = Vector3(8.1614e-11, -0.221947, 0.353389)
-bones/1/rotation = Quaternion(0.689364, -3.58848e-07, -3.77093e-07, 0.724415)
+bones/0/position = Vector3(6.37296e-17, 0.139683, -0.180592)
+bones/0/rotation = Quaternion(0.172529, -3.2781e-19, -3.5806e-17, 0.985004)
+bones/1/position = Vector3(-6.67844e-08, -0.23332, 0.387391)
+bones/1/rotation = Quaternion(0.734785, -3.97108e-07, -3.33466e-07, 0.6783)
 
 [node name="polySurface2" parent="Armature/Skeleton3D" index="0"]
 material_override = SubResource("StandardMaterial3D_jiimb")
@@ -343,3 +361,8 @@ parameters/os_hit/request = 0
 parameters/state/current_state = "alive"
 parameters/state/transition_request = ""
 parameters/state/current_index = 0
+
+[node name="Timer" type="Timer" parent="." index="3"]
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -193,3 +193,7 @@ func _on_hurtbox_area_entered(area):
 		# todo play hit animation
 		# emit signal hit
 		emit_signal("_on_enemy_hit", health);
+
+
+func _on_enemy_mesh_death_animation_end():
+	deactivate()

@@ -59,6 +59,7 @@ environment = ExtResource("2_g7i6p")
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.757316, 0.284599, -0.313906, -0.785055)
 
 [node name="Temp_gun_mesh" type="MeshInstance3D" parent="camRoot/Camera3D/Gun"]
+visible = false
 mesh = SubResource("BoxMesh_vqdam")
 
 [node name="bulletSpawn" type="Node3D" parent="camRoot/Camera3D/Gun"]
@@ -68,6 +69,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.71434)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="camRoot/Camera3D/Gun/bulletSpawn/Debug_bulletSpawnVisual"]
 transform = Transform3D(1, 0, 0, 0, -7.74759e-08, 0.242707, 0, -1.77244, -1.06091e-08, 0, 0, -0.991184)
+visible = false
 mesh = SubResource("PrismMesh_4et3b")
 skeleton = NodePath("../..")
 
