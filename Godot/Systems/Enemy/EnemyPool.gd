@@ -21,6 +21,7 @@ func _ready():
 	for i in TOTAL_INSTANCES:
 		# instanciate
 		var inst = bullet_scene.instantiate()
+		inst.id = i
 		add_child(inst)
 		# deactivate
 		inst.deactivate()

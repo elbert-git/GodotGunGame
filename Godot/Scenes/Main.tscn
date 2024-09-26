@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://c3b1rmvcgssey"]
+[gd_scene load_steps=12 format=3 uid="uid://c3b1rmvcgssey"]
 
 [ext_resource type="PackedScene" uid="uid://c3efymn0wqovn" path="res://Systems/Player/Player.tscn" id="1_txwmi"]
 [ext_resource type="Script" path="res://Systems/Main.gd" id="1_u5buh"]
@@ -6,6 +6,43 @@
 [ext_resource type="Environment" uid="uid://rpk8x1fify2a" path="res://imports/mapImport/environment.tres" id="3_bynod"]
 [ext_resource type="PackedScene" uid="uid://cw6ib60ji8ns7" path="res://Systems/Enemy/EnemyPool.tscn" id="5_hwwfv"]
 [ext_resource type="PackedScene" uid="uid://cowk75fi5ywm4" path="res://Systems/Shooting/BulletPool.tscn" id="6_npf6o"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h6ys0"]
+albedo_color = Color(1, 0.933333, 0, 1)
+emission_enabled = true
+emission = Color(0.909804, 0.501961, 0, 1)
+emission_energy_multiplier = 2.09
+
+[sub_resource type="Curve" id="Curve_1cw4t"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.75522, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_xrhei"]
+curve = SubResource("Curve_1cw4t")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fi5ao"]
+particle_flag_damping_as_friction = true
+angle_min = -720.0
+angle_max = 720.0
+inherit_velocity_ratio = 1.0
+direction = Vector3(0, 0, 0)
+spread = 180.0
+initial_velocity_max = 14.95
+gravity = Vector3(0, 0, 0)
+linear_accel_max = 26.65
+damping_min = 1.47
+damping_max = 4.979
+scale_min = 0.05
+scale_max = 0.3
+scale_curve = SubResource("CurveTexture_xrhei")
+scale_over_velocity_max = 1000.0
+turbulence_enabled = true
+turbulence_noise_strength = 9.18
+turbulence_noise_scale = 4.65
+sub_emitter_mode = 1
+sub_emitter_frequency = 4.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_5kkc8"]
 
 [node name="Root" type="Node3D"]
 script = ExtResource("1_u5buh")
@@ -25,5 +62,21 @@ environment = ExtResource("3_bynod")
 [node name="EnemyPool" parent="." instance=ExtResource("5_hwwfv")]
 
 [node name="BulletPool" parent="." instance=ExtResource("6_npf6o")]
+
+[node name="particles" type="GPUParticles3D" parent="."]
+transform = Transform3D(0.193538, 0, 0, 0, 0.193538, 0, 0, 0, 0.193538, 0, 8.32933, 0)
+material_override = SubResource("StandardMaterial3D_h6ys0")
+emitting = false
+amount = 32
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+visibility_aabb = AABB(-1.11773, -0.977947, -1.21622, 2.23545, 1.95589, 2.43244)
+local_coords = true
+trail_lifetime = 4.65
+process_material = SubResource("ParticleProcessMaterial_fi5ao")
+draw_pass_1 = SubResource("SphereMesh_5kkc8")
+
+[node name="BulletParticlePool" type="Node3D" parent="."]
 
 [connection signal="player_has_died" from="Player" to="." method="_on_player_player_has_died"]

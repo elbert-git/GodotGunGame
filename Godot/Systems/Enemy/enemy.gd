@@ -19,6 +19,7 @@ const max_health = 100;
 @onready var obj_nav_agent:NavigationAgent3D = $NavigationAgent3D
 @onready var obj_y_offset:Node3D = $y_offset
 # states
+@export var id = 0
 @export var is_alive:= false;
 var headbob_states = {
 	"time": 0,
@@ -184,6 +185,7 @@ func _on_hurtbox_area_entered(area):
 			if(health <= 0):
 				triggger_death()
 		elif area.name == "Area3D": # on hit with bullet
+			emit_signal("trigger_animation", "hit")
 			health -= 30.0 # damage
 			if(health <= 0):
 				triggger_death()

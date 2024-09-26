@@ -292,7 +292,7 @@ input_1/auto_advance = false
 input_1/reset = true
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_7258o"]
-graph_offset = Vector2(-915.765, 372.435)
+graph_offset = Vector2(-940.765, 343.685)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_y1wcc")
 nodes/Animation/position = Vector2(-840, 160)
 "nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_qcn61")
@@ -381,10 +381,10 @@ script = ExtResource("2_oe2p0")
 obj_timer = NodePath("Timer")
 
 [node name="Skeleton3D" parent="Armature" index="0"]
-bones/0/position = Vector3(6.37296e-17, 0.0209374, -0.180592)
-bones/0/rotation = Quaternion(0.132474, -5.65849e-19, -3.57899e-17, 0.991186)
-bones/1/position = Vector3(-2.61158e-08, -0.188571, 0.380301)
-bones/1/rotation = Quaternion(0.699317, -3.97446e-07, -3.38676e-07, 0.714811)
+bones/0/position = Vector3(6.37296e-17, 0.0538945, -0.180592)
+bones/0/rotation = Quaternion(0.151361, -5.66034e-19, -3.58016e-17, 0.988479)
+bones/1/position = Vector3(-4.78911e-08, -0.209486, 0.384866)
+bones/1/rotation = Quaternion(0.70833, -4.02118e-07, -3.34047e-07, 0.705882)
 
 [node name="polySurface2" parent="Armature/Skeleton3D" index="0"]
 material_override = SubResource("StandardMaterial3D_jiimb")
