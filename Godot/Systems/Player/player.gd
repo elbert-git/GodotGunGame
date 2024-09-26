@@ -10,9 +10,16 @@ extends CharacterBody3D
 @onready var obj_bullet_spawn := get_node('camRoot/Camera3D/Gun/bulletSpawn')
 @onready var obj_aim_ray_reticle := get_node('aim_ray_reticle')
 @onready var obj_aim_ray :RayCast3D = get_node('camRoot/Camera3D/AimRay')
+@onready var utilities := preload('res://Systems/Utilities.gd').new()
 # props
 const shooting_properties = {
 	"fire_per_second": 15.0,
+}
+const cam_anim_props = {
+		"y_variance": 0.1,
+		"z_rot": 3.0,
+		"fov_variance": 5.0,
+		"shake_intensity": 20.0
 }
 # character properties
 var health  = 100.0
@@ -29,13 +36,22 @@ var camera_rotation:Vector3
 var shooting_states = {
 	"fire_time": 0.0
 }
-
+var cam_anim_states = {
+	"time": 0.0,
+	"current_y_offset": 0.0,
+	"initial_y": 0.0,
+	"lerped_input_vector": Vector2(),
+	"initial_fov": 0.0,
+	"current_fov": 0.0,
+	"initial_pos": Vector3(),
+	"current_shake_intensity": 0.0
+}
 
 
 ## --- signals
 signal player_hit(newHealth:float)
 signal play_sodlier_animation(animation:String)
-
+signal player_has_died()
 
 
 # --- main functions
@@ -44,6 +60,9 @@ func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	# get initial variables
 	# initial_bullet_spawn_pos = obj_bullet_spawn.position
+	cam_anim_states['initial_y']= CAMERA_CONTROLLER.position.y
+	cam_anim_states.initial_fov=CAMERA_CONTROLLER.fov
+	cam_anim_states.initial_pos=CAMERA_CONTROLLER.position
 func _physics_process(delta):
 	# Add the gravity.
 	if not is_on_floor():
@@ -53,7 +72,7 @@ func _physics_process(delta):
 	player_movement()
 	handle_shooting(delta)
 	point_gun_at_center()
-	# handle_shooting(delta)
+	camera_animations(delta)
 # --- capture input events
 func _input(event):
 	if event.is_action_pressed("exit"):
@@ -125,13 +144,50 @@ func point_gun_at_center():
 	else: 
 		obj_aim_ray_reticle.global_position = $camRoot/Camera3D/defaultAim.global_position
 	$camRoot/Camera3D/Gun/bulletSpawn/Debug_bulletSpawnVisual.look_at(obj_aim_ray_reticle.global_position)
-
+func camera_animations(delta):
+	# get input
+	var input_dir = Input.get_vector("move_left", "move_right", "move_forward" ,"move_backward")
+	cam_anim_states.lerped_input_vector = Vector2(
+		lerp(cam_anim_states.lerped_input_vector.x, input_dir.x, 5.0*delta),
+		lerp(cam_anim_states.lerped_input_vector.y, input_dir.y, 10.0*delta)
+	)
+	# iterate head bob
+	cam_anim_states.time += delta * abs(cam_anim_states.lerped_input_vector.y)
+	cam_anim_states.current_y_offset = sin(cam_anim_states.time * 16.0) * cam_anim_props.y_variance
+	# handle camera sways
+	var final_rot = cam_anim_props.z_rot * -cam_anim_states.lerped_input_vector.x
+	# handle camera fov
+	var fov_change = abs(cam_anim_states.lerped_input_vector.y) * cam_anim_props.fov_variance
+	# handle damage shake
+	cam_anim_states.current_shake_intensity = clampf(cam_anim_states.current_shake_intensity-(delta* 2.0), 0, 100.0) 
+	var random_position = Vector3(
+		randf_range(0.0, cam_anim_props.shake_intensity*cam_anim_states.current_shake_intensity),
+		randf_range(0.0, cam_anim_props.shake_intensity*cam_anim_states.current_shake_intensity),
+		cam_anim_states.initial_pos.z
+	)
+	var final_pos = cam_anim_states.initial_pos.lerp(random_position, 2.0*delta)
+	# apply transformations
+	CAMERA_CONTROLLER.position = Vector3(
+		final_pos.x,
+		final_pos.y + cam_anim_states.current_y_offset,
+		final_pos.z,
+	)
+	CAMERA_CONTROLLER.rotation = Vector3(
+		CAMERA_CONTROLLER.rotation.x,
+		0.0,
+		deg_to_rad(final_rot)
+	)
+	CAMERA_CONTROLLER.fov = cam_anim_states.initial_fov + fov_change
 
 ## --- signal callbacks
 # enemy collision
 func _on_area_for_enemy_area_entered(area):
+	#trigger camera shake
+	cam_anim_states.current_shake_intensity = 2.0
 	print("player got hit", area.name)
 	# udpate health, take damage 
 	health -= 33.0
 	# emit player hit to enemy signal
 	emit_signal("player_hit", health)
+	if health <= 0.0:
+		emit_signal("player_has_died")

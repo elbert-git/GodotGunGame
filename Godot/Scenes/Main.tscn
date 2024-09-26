@@ -25,3 +25,5 @@ environment = ExtResource("3_bynod")
 [node name="EnemyPool" parent="." instance=ExtResource("5_hwwfv")]
 
 [node name="BulletPool" parent="." instance=ExtResource("6_npf6o")]
+
+[connection signal="player_has_died" from="Player" to="." method="_on_player_player_has_died"]

@@ -16,9 +16,14 @@ func game_start():
 	pass
 func game_over():
 	# stop game and show game over screen
+	print("game over triggered")
 	pass
 
 
 # --- external functions
 func get_important_node(key):
 	return get_node(important_node_paths[key])
+
+
+func _on_player_player_has_died():
+	game_over()
