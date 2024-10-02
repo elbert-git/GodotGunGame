@@ -316,33 +316,6 @@ nodes/state/node = SubResource("AnimationNodeTransition_pdv8d")
 nodes/state/position = Vector2(100, 780)
 node_connections = [&"T_hitType", 0, &"Animation 5", &"T_hitType", 1, &"Animation 4", &"T_hitType", 2, &"Animation 3", &"TimeScale", 0, &"T_hitType", &"TimeSeek", 0, &"Animation 2", &"os_hit", 0, &"Animation", &"os_hit", 1, &"TimeScale", &"output", 0, &"state", &"state", 0, &"os_hit", &"state", 1, &"TimeSeek"]
 
-[sub_resource type="Animation" id="Animation_yrbuk"]
-resource_name = "flash"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Armature/Skeleton3D/polySurface2:material_override:emission")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.02),
-"transitions": PackedFloat32Array(1, 0.189465),
-"update": 0,
-"values": [Color(0.955882, 0.310471, 0.0283035, 1), Color(0, 0, 0, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Armature/Skeleton3D/polySurface2:scale")
-tracks/1/interp = 2
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector3(1, 1, 1), Vector3(1.105, 1.105, 1.105), Vector3(1, 1, 1)]
-}
-
 [sub_resource type="Animation" id="Animation_06fe7"]
 length = 0.001
 tracks/0/type = "value"
@@ -370,6 +343,33 @@ tracks/1/keys = {
 "values": [Vector3(1, 1, 1)]
 }
 
+[sub_resource type="Animation" id="Animation_yrbuk"]
+resource_name = "flash"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Armature/Skeleton3D/polySurface2:material_override:emission")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.02),
+"transitions": PackedFloat32Array(1, 0.189465),
+"update": 0,
+"values": [Color(0.955882, 0.310471, 0.0283035, 1), Color(0, 0, 0, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Armature/Skeleton3D/polySurface2:scale")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(1, 1, 1), Vector3(1.105, 1.105, 1.105), Vector3(1, 1, 1)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8b3gv"]
 _data = {
 "RESET": SubResource("Animation_06fe7"),
@@ -381,10 +381,10 @@ script = ExtResource("2_oe2p0")
 obj_timer = NodePath("Timer")
 
 [node name="Skeleton3D" parent="Armature" index="0"]
-bones/0/position = Vector3(6.37296e-17, 0.0209374, -0.180592)
-bones/0/rotation = Quaternion(0.132474, -5.65849e-19, -3.57899e-17, 0.991186)
-bones/1/position = Vector3(-2.61158e-08, -0.188571, 0.380301)
-bones/1/rotation = Quaternion(0.699317, -3.97446e-07, -3.38676e-07, 0.714811)
+bones/0/position = Vector3(6.37296e-17, 0.0472965, -0.180592)
+bones/0/rotation = Quaternion(0.148487, -5.6601e-19, -3.58e-17, 0.988914)
+bones/1/position = Vector3(-4.42288e-08, -0.205969, 0.384198)
+bones/1/rotation = Quaternion(0.706782, -4.01316e-07, -3.3485e-07, 0.707432)
 
 [node name="polySurface2" parent="Armature/Skeleton3D" index="0"]
 material_override = SubResource("StandardMaterial3D_jiimb")

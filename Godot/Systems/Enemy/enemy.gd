@@ -186,7 +186,7 @@ func _on_hurtbox_area_entered(area):
 				triggger_death()
 		elif area.name == "Area3D": # on hit with bullet
 			emit_signal("trigger_animation", "hit")
-			health -= 30.0 # damage
+			health -= 25.0 # damage
 			if(health <= 0):
 				triggger_death()
 				emit_signal("died_from_bullets")

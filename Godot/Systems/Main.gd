@@ -3,7 +3,8 @@ extends Node3D
 const important_node_paths = {
 	"player": "Player",
 	"bullet_pool": "BulletPool",
-	"enemy_pool": "EnemyPool"
+	"enemy_pool": "EnemyPool",
+	"bullet_particles_pool": "BulletParticlePool"
 }
 
 
