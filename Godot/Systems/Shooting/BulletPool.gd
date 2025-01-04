@@ -7,7 +7,7 @@ var bullet_scene = preload("res://Systems/Shooting/bullet.tscn")
 
 
 # props
-const TOTAL_INSTANCES = 100
+const TOTAL_INSTANCES = 30
 # states
 var all_instances:Array[Node3D] = []
 var next_id:= 1
@@ -22,7 +22,7 @@ func _ready():
 		inst.id = i
 		all_instances.append(inst)
 		add_child(inst)
-		inst.global_position = Vector3(0,-20,0);
+		inst.deactivate()
 
 
 
@@ -30,7 +30,6 @@ func _ready():
 
 # ------------------ other functions
 func shoot(pos:Vector3, vel:Vector3):
-	$Label.text = str(vel)
 	# get bullet 
 	var bullet = all_instances[next_id]
 	# shoot bullet

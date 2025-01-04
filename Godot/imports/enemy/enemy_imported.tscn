@@ -381,10 +381,10 @@ script = ExtResource("2_oe2p0")
 obj_timer = NodePath("Timer")
 
 [node name="Skeleton3D" parent="Armature" index="0"]
-bones/0/position = Vector3(6.37296e-17, 0.0472965, -0.180592)
-bones/0/rotation = Quaternion(0.148487, -5.6601e-19, -3.58e-17, 0.988914)
-bones/1/position = Vector3(-4.42288e-08, -0.205969, 0.384198)
-bones/1/rotation = Quaternion(0.706782, -4.01316e-07, -3.3485e-07, 0.707432)
+bones/0/position = Vector3(6.37296e-17, 0.263767, -0.180592)
+bones/0/rotation = Quaternion(0.0733453, -1.59117e-18, -3.56744e-17, 0.997307)
+bones/1/position = Vector3(2.1222e-09, -0.219987, 0.357623)
+bones/1/rotation = Quaternion(0.661126, -3.44148e-07, -3.90554e-07, 0.750275)
 
 [node name="polySurface2" parent="Armature/Skeleton3D" index="0"]
 material_override = SubResource("StandardMaterial3D_jiimb")

@@ -58,7 +58,7 @@ func _ready():
 	# get initial y offset position
 	headbob_states['initial_y'] = obj_y_offset.position.y
 func _process(delta):
-	if true: 
+	if is_alive: 
 		navigate_to_player(delta);
 		animate_headbob(delta);
 
@@ -145,12 +145,12 @@ func triggger_death():
 
 
 # --- external fucntions
-func activate(): 
+func activate(pos:Vector3): 
 	# set alive
 	is_alive = true
 	speed_multiplier = 1
 	# set position
-	global_position = create_spawn_position()
+	global_position = pos
 	# reset health
 	health = max_health
 	# reset colliders

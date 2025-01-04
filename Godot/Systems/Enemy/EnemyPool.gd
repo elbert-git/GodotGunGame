@@ -5,12 +5,13 @@ var bullet_scene = preload("res://Systems/Enemy/enemy.tscn")
 @onready var timer = $Timer
 var rng = RandomNumberGenerator.new()
 # constants - props
-const TOTAL_INSTANCES:int = 10
+const TOTAL_INSTANCES:int = 300
 const SPAWN_INTERVAL:float = 3.0
 # vars - states
 var all_instances:Array[CharacterBody3D] = []
 var next_id:int = 0
-
+var spawn_locations:Array[Node3D] = []
+var allowed_instances:int = 10
 
 ## --- signals
 signal enemy_has_died()
@@ -31,20 +32,30 @@ func _ready():
 		all_instances.append(inst)
 	# start spawn loop
 	timer.start(SPAWN_INTERVAL)
-
+	# get all spawn locations
+	for child in $SpawnLocations.get_children():
+		spawn_locations.append(child)
 
 #------------- other funcs
 func spawn_available_enemy():
 	# get available enemy
 	var curr_enemy = null
-	for i in TOTAL_INSTANCES:
+	for i in allowed_instances:
 		var e = all_instances[i]
 		if e.is_alive == false:
 			curr_enemy = e
 			break
 	# spawn if available
 	if curr_enemy != null:
-		curr_enemy.activate()
+		var pos = spawn_locations.pick_random().global_position
+		curr_enemy.activate(pos)
+	# add extra enemy every spawn
+	add_extra_enemy()
+
+func add_extra_enemy():
+	allowed_instances += 1
+	if(allowed_instances >= TOTAL_INSTANCES):
+		allowed_instances = TOTAL_INSTANCES - 1
 
 
 # --- signal callbacks
